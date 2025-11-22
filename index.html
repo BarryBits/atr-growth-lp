@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATR Growth Business | Plano de Voo Estratégico</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* =========================================
+           1. VARIÁVEIS & RESET (DESIGN SYSTEM)
+           ========================================= */
+        :root {
+            /* Palette: Luxury Avionics */
+            --bg-deep: #050505;       /* Preto Infinito */
+            --bg-carbon: #0f1012;     /* Carbono Escuro */
+            --bg-panel: #141414;      /* Painel de Instrumentos */
+            
+            --gold-primary: #D4AF37;  /* Ouro Clássico */
+            --gold-dark: #AA8825;     /* Ouro Envelhecido */
+            --gold-light: #F4E295;    /* Brilho Dourado */
+            
+            --text-main: #E0E0E0;     /* Branco Cockpit */
+            --text-muted: #888888;    /* Cinza Metálico */
+            
+            --alert-amber: #FFBF00;   /* Âmbar de Aviso */
+            --success-green: #28a745; /* Verde HUD */
+            
+            --border-gold: rgba(212, 175, 55, 0.3);
+            --glass-bg: rgba(20, 20, 20, 0.7);
+            
+            --font-display: 'Cinzel', serif;
+            --font-tech: 'Rajdhani', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Esconde cursor padrão para usar o Custom */
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+        /* =========================================
+           2. BACKGROUND (SYNTHETIC VISION SYSTEM)
+           ========================================= */
+        .gold-text {
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .tech-font { font-family: var(--font-tech); text-transform: uppercase; letter-spacing: 2px; }
+        .display-font { font-family: var(--font-display); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; }
+
+        /* Viewport do Cockpit */
+        .cockpit-view {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #050505; overflow: hidden; z-index: -1;
+        }
+
+        /* O Grid de Terreno (Chão Infinito) */
+        .terrain-grid {
+            position: absolute; bottom: -30%; left: -50%; width: 200%; height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(212, 175, 55, 0.15) 25%, rgba(212, 175, 55, 0.15) 26%, transparent 27%, transparent 74%, rgba(212, 175, 55, 0.15) 75%, rgba(212, 175, 55, 0.15) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(212, 175, 55, 0.15) 25%, rgba(212, 175, 55, 0.15) 26%, transparent 27%, transparent 74%, rgba(212, 175, 55, 0.15) 75%, rgba(212, 175, 55, 0.15) 76%, transparent 77%, transparent);
+            background-size: 60px 60px;
+            transform: perspective(300px) rotateX(70deg);
+            animation: fly-over 2s linear infinite; /* Movimento constante */
+            mask-image: linear-gradient(to top, black 20%, transparent 80%); /* Fade suave no horizonte */
+            -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%);
+        }
+
+        /* Animação de voo */
+        @keyframes fly-over {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 60px; }
+        }
+
+        /* Linhas de Scan (Efeito Monitor de Avião) */
+        .scanlines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+            background-size: 100% 4px;
+            pointer-events: none; z-index: 0; opacity: 0.3;
+        }
+
+        /* Brilho no Horizonte (Glow Dourado Distante) */
+        .horizon-glow {
+            position: absolute; top: 30%; left: 0; width: 100%; height: 40%;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            z-index: -1; filter: blur(40px);
+        }
+
+        /* =========================================
+           3. UI INTERATIVA (CURSOR & PRELOADER)
+           ========================================= */
+        /* Cursor Mira (Target Lock) */
+        #custom-cursor {
+            position: fixed; width: 40px; height: 40px;
+            border: 1px solid var(--gold-primary); border-radius: 50%;
+            transform: translate(-50%, -50%); pointer-events: none; z-index: 9999;
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            display: flex; justify-content: center; align-items: center;
+        }
+        #custom-cursor::after {
+            content: ''; width: 4px; height: 4px; background: var(--gold-primary);
+            border-radius: 50%;
+        }
+        #custom-cursor.locked {
+            width: 60px; height: 60px; border-color: var(--alert-amber);
+            background: rgba(255, 191, 0, 0.1); border-style: dashed; animation: spin-cursor 4s linear infinite;
+        }
+        @keyframes spin-cursor { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+        /* Preloader Checklist */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        .check-text {
+            font-family: var(--font-tech); color: var(--gold-primary); font-size: 1.5rem;
+            margin-bottom: 20px; min-height: 2rem; text-align: center;
+        }
+        .loader-bar {
+            width: 200px; height: 2px; background: #333; position: relative; overflow: hidden;
+        }
+        .loader-fill {
+            position: absolute; left: 0; top: 0; height: 100%; width: 0%;
+            background: var(--gold-primary); box-shadow: 0 0 10px var(--gold-primary);
+            transition: width 0.1s linear;
+        }
+
+        /* Altímetro de Scroll (Lateral Direita) */
+        .altimeter-strip {
+            position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+            height: 300px; width: 40px; border-left: 1px solid rgba(255,255,255,0.1);
+            z-index: 90; display: flex; flex-direction: column; justify-content: space-between;
+            align-items: flex-end; padding-right: 10px; pointer-events: none;
+        }
+        .alt-mark { font-family: var(--font-tech); font-size: 0.7rem; color: var(--text-muted); transition: 0.3s; }
+        .alt-mark.active { color: var(--gold-primary); font-size: 1rem; font-weight: bold; text-shadow: 0 0 10px var(--gold-primary); }
+        .alt-indicator {
+            position: absolute; right: 0; top: 0; width: 10px; height: 2px; background: var(--gold-primary);
+            box-shadow: 0 0 5px var(--gold-primary); transition: top 0.1s ease-out;
+        }
+
+        /* =========================================
+           4. HEADER & NAV (OVERHEAD PANEL)
+           ========================================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(5, 5, 5, 0.9); border-bottom: 1px solid var(--border-gold);
+            backdrop-filter: blur(15px); padding: 15px 0;
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { font-size: 2rem; color: var(--gold-primary); }
+        .logo-text { font-family: var(--font-display); font-size: 1.5rem; color: #fff; font-weight: 700; letter-spacing: 1px; }
+        .logo-sub { font-family: var(--font-tech); font-size: 0.7rem; color: var(--gold-primary); display: block; letter-spacing: 3px; margin-top: -5px;}
+
+        .nav-switches { display: flex; gap: 30px; }
+        .nav-item { position: relative; text-decoration: none; color: var(--text-muted); font-family: var(--font-tech); font-size: 0.9rem; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        
+        /* Switch visual */
+        .switch-indicator { width: 30px; height: 10px; border: 1px solid #333; background: #000; position: relative; margin-bottom: 2px; }
+        .switch-knob { width: 10px; height: 14px; background: #444; position: absolute; left: 2px; top: -2px; transition: 0.3s; border: 1px solid #666; }
+        
+        .nav-item:hover { color: var(--gold-primary); }
+        .nav-item:hover .switch-indicator { border-color: var(--gold-primary); box-shadow: 0 0 5px rgba(212,175,55,0.2); }
+        .nav-item:hover .switch-knob { left: 16px; background: var(--gold-primary); box-shadow: 0 0 10px var(--gold-primary); }
+
+        /* =========================================
+           5. HERO SECTION (HUD & MANETE)
+           ========================================= */
+        .hero {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            position: relative; text-align: center; padding-top: 80px;
+        }
+        
+        /* Elementos HUD decorativos */
+        .hud-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .hud-corner { position: absolute; width: 50px; height: 50px; border: 2px solid rgba(212, 175, 55, 0.1); }
+        .hc-tl { top: 100px; left: 20px; border-right: none; border-bottom: none; }
+        .hc-tr { top: 100px; right: 20px; border-left: none; border-bottom: none; }
+        .hc-bl { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .hc-br { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+        
+        .hero-content { position: relative; z-index: 5; max-width: 800px; }
+        
+        .status-badge {
+            display: inline-block; padding: 5px 15px; border: 1px solid var(--gold-primary);
+            color: var(--gold-primary); font-family: var(--font-tech); font-size: 0.8rem;
+            margin-bottom: 20px; background: rgba(212, 175, 55, 0.05);
+            animation: blink-soft 2s infinite;
+        }
+        @keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        h1 {
+            font-family: var(--font-display); font-size: 4rem; line-height: 1.1; margin-bottom: 20px;
+            text-transform: uppercase; color: #fff;
+        }
+        
+        .hero-p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 40px; font-weight: 300; }
+
+        /* Botão Manete de Potência (Slider) */
+        .throttle-container {
+            width: 300px; height: 60px; margin: 0 auto;
+            background: #111; border: 1px solid #333; border-radius: 30px;
+            position: relative; overflow: hidden; box-shadow: inset 0 0 20px #000;
+        }
+        .throttle-track {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-tech); color: #444; font-size: 0.9rem; letter-spacing: 1px;
+            pointer-events: none; transition: 0.3s;
+        }
+        .throttle-knob {
+            width: 60px; height: 60px; background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+            border-radius: 50%; position: absolute; left: 0; top: 0;
+            cursor: grab; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--gold-primary); z-index: 10;
+        }
+        .throttle-knob i { color: #000; font-size: 1.2rem; }
+        .throttle-knob:active { cursor: grabbing; transform: scale(0.95); }
+
+        /* =========================================
+           6. PROBLEMA (VOO VISUAL - DESEMBAÇADOR)
+           ========================================= */
+        section { padding: 100px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 10px; }
+        
+        .fog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .fog-card {
+            background: var(--bg-carbon); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; position: relative; overflow: hidden; height: 300px;
+            transition: 0.3s;
+        }
+        
+        /* Camada de Neblina */
+        .fog-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px) grayscale(80%);
+            z-index: 2; transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .fog-warning { color: var(--alert-amber); font-size: 3rem; margin-bottom: 10px; }
+        .fog-label { font-family: var(--font-tech); color: var(--text-muted); letter-spacing: 2px; }
+
+        /* Conteúdo Claro (Escondido) */
+        .clear-content {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            padding: 30px; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; z-index: 1; opacity: 0;
+            transition: 0.4s 0.2s;
+        }
+        
+        /* Interação Hover */
+        .fog-card:hover { border-color: var(--alert-amber); box-shadow: 0 0 20px rgba(255, 191, 0, 0.1); }
+        .fog-card:hover .fog-layer { opacity: 0; backdrop-filter: blur(0px); transform: scale(1.1); }
+        .fog-card:hover .clear-content { opacity: 1; }
+
+        .problem-icon { font-size: 2rem; color: var(--gold-primary); margin-bottom: 15px; }
+        .problem-title { font-family: var(--font-display); font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
+
+        /* =========================================
+           7. SOLUÇÃO (RADAR DOURADO)
+           ========================================= */
+        .radar-section { position: relative; overflow: hidden; }
+        .radar-flex { display: flex; flex-wrap: wrap; align-items: center; gap: 50px; justify-content: center; }
+        
+        .radar-screen {
+            width: 400px; height: 400px; background: radial-gradient(circle, #000 0%, #111 100%);
+            border-radius: 50%; border: 4px solid #333; position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        .radar-grid-lines {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+            background-image: 
+                radial-gradient(transparent 30%, rgba(212, 175, 55, 0.1) 31%, transparent 32%),
+                radial-gradient(transparent 60%, rgba(212, 175, 55, 0.1) 61%, transparent 62%),
+                linear-gradient(transparent 49.5%, rgba(212, 175, 55, 0.1) 50%, transparent 50.5%),
+                linear-gradient(90deg, transparent 49.5%, rgba(212, 175, 55, 0.1) 50%, transparent 50.5%);
+        }
+        .radar-sweep {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 270deg, rgba(212, 175, 55, 0.4) 360deg);
+            animation: radar-spin 4s linear infinite;
+        }
+        @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        .blip {
+            position: absolute; width: 8px; height: 8px; background: #fff; border-radius: 50%;
+            box-shadow: 0 0 8px #fff, 0 0 20px var(--gold-primary); animation: blip-pulse 2s infinite;
+        }
+        
+        .phase-list { max-width: 500px; display: flex; flex-direction: column; gap: 20px; }
+        .phase-card {
+            background: rgba(255,255,255,0.03); border-left: 3px solid #444; padding: 20px;
+            transition: 0.3s;
+        }
+        .phase-card:hover { border-left-color: var(--gold-primary); background: rgba(212, 175, 55, 0.05); transform: translateX(10px); }
+        .phase-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-family: var(--font-tech); color: var(--gold-primary); }
+        .phase-title { font-size: 1.2rem; font-weight: bold; color: #fff; }
+
+        /* =========================================
+           8. ENTREGÁVEIS (PASTAS CLASSIFICADAS)
+           ========================================= */
+        .files-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
+        
+        .classified-folder {
+            background: #1a1a1a; padding: 5px; position: relative; border-top: 2px solid #333;
+            transition: 0.4s;
+        }
+        .folder-tab {
+            position: absolute; top: -25px; left: 0; width: 40%; height: 25px;
+            background: #1a1a1a; clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
+            display: flex; align-items: center; padding-left: 15px;
+            font-family: var(--font-tech); font-size: 0.7rem; color: var(--gold-primary);
+        }
+        .folder-body {
+            background: #111; padding: 30px 20px; border: 1px solid #333;
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .folder-stamp {
+            position: absolute; right: 20px; top: 10px; border: 2px solid var(--gold-primary);
+            color: var(--gold-primary); padding: 2px 8px; font-family: var(--font-tech); font-weight: bold;
+            transform: rotate(-10deg); font-size: 0.8rem; opacity: 0.5;
+        }
+        .classified-folder:hover { transform: translateY(-10px); }
+        .classified-folder:hover .folder-tab, .classified-folder:hover .folder-body { border-color: var(--gold-primary); background: #151515; }
+        .classified-folder:hover .folder-stamp { opacity: 1; }
+
+        /* =========================================
+           9. PROVA SOCIAL (GRAVADOR DE VOZ)
+           ========================================= */
+        .voice-recorder {
+            background: #000; border: 1px solid #333; padding: 40px;
+            max-width: 800px; margin: 0 auto; border-radius: 5px; position: relative;
+        }
+        .recorder-header { display: flex; justify-content: space-between; border-bottom: 1px dashed #333; padding-bottom: 15px; margin-bottom: 20px; font-family: var(--font-tech); color: var(--gold-dark); }
+        .waveform { display: flex; align-items: center; justify-content: center; height: 50px; gap: 3px; margin-bottom: 20px; }
+        .bar { width: 3px; background: var(--gold-primary); animation: wave 1s infinite ease-in-out; }
+        @keyframes wave { 0%, 100% { height: 10px; opacity: 0.3; } 50% { height: 40px; opacity: 1; } }
+        
+        .testimonial-text { font-family: 'Courier New', monospace; color: var(--text-main); font-size: 1.1rem; text-align: center; }
+        .telemetry-row { display: flex; justify-content: space-around; margin-top: 50px; flex-wrap: wrap; gap: 20px; }
+        .telemetry-item { text-align: center; }
+        .t-val { font-family: var(--font-tech); font-size: 2.5rem; color: #fff; font-weight: bold; display: block; }
+        .t-label { color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px; }
+
+        /* =========================================
+           10. CTA (TICKET HOLOGRÁFICO)
+           ========================================= */
+        .holo-ticket {
+            max-width: 700px; margin: 0 auto; background: #000;
+            border: 1px solid var(--gold-primary); border-radius: 15px;
+            position: relative; overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: 0.4s;
+        }
+        .holo-ticket:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15); }
+        
+        /* Efeito Holográfico */
+        .holo-ticket::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transform: skewX(-25deg); transition: 0.5s; pointer-events: none;
+        }
+        .holo-ticket:hover::before { left: 150%; transition: 0.8s ease-in-out; }
+        
+        .ticket-body { padding: 40px; text-align: center; border-bottom: 2px dashed rgba(255,255,255,0.2); }
+        .ticket-dest { font-size: 3rem; font-family: var(--font-display); color: #fff; margin: 10px 0; }
+        .ticket-stub { padding: 20px; background: #0f0f0f; text-align: center; }
+        
+        .btn-gold {
+            display: inline-block; padding: 15px 40px; background: linear-gradient(to bottom, var(--gold-primary), var(--gold-dark));
+            color: #000; font-weight: 800; text-transform: uppercase; font-family: var(--font-tech);
+            letter-spacing: 1px; text-decoration: none; border-radius: 4px; border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s;
+        }
+        .btn-gold:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--gold-primary); }
+
+        /* Footer */
+        footer { padding: 50px 0 20px; background: #000; border-top: 1px solid #222; font-size: 0.9rem; position: relative; z-index: 10; }
+        .footer-map { opacity: 0.1; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') no-repeat center center; background-size: cover; pointer-events: none; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; position: relative; z-index: 2; }
+        .ejetar-btn { color: #333; text-decoration: none; font-size: 0.7rem; font-family: var(--font-tech); transition: 0.3s; }
+        .ejetar-btn:hover { color: var(--alert-amber); text-shadow: 0 0 5px var(--alert-amber); }
+
+        /* Responsivo Básico */
+        @media(max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .nav-switches { display: none; }
+            .altimeter-strip { display: none; }
+            #custom-cursor { display: none; }
+            * { cursor: auto; }
+            .radar-flex { flex-direction: column; }
+            .radar-screen { width: 300px; height: 300px; }
+            .throttle-container { width: 80%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="check-text" id="check-text">INICIANDO SISTEMAS...</div>
+        <div class="loader-bar"><div class="loader-fill" id="loader-fill"></div></div>
+    </div>
+
+    <div id="custom-cursor"></div>
+    
+    <div class="cockpit-view">
+        <div class="horizon-glow"></div>
+        <div class="terrain-grid"></div>
+        <div class="scanlines"></div>
+    </div>
+
+    <div class="altimeter-strip">
+        <div class="alt-indicator" id="alt-indicator"></div>
+        <div class="alt-mark active">FL400</div>
+        <div class="alt-mark">FL300</div>
+        <div class="alt-mark">FL200</div>
+        <div class="alt-mark">FL100</div>
+        <div class="alt-mark">GND</div>
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo-container">
+                    <i class="fas fa-plane-up logo-icon"></i>
+                    <div>
+                        <div class="logo-text">ATR <span style="color:var(--gold-primary)">GROWTH</span></div>
+                        <span class="logo-sub">BUSINESS CONSULTING</span>
+                    </div>
+                </div>
+                <div class="nav-switches">
+                    <a href="#problema" class="nav-item">
+                        <div class="switch-indicator"><div class="switch-knob"></div></div>
+                        RADAR
+                    </a>
+                    <a href="#solucao" class="nav-item">
+                        <div class="switch-indicator"><div class="switch-knob"></div></div>
+                        PAINEL
+                    </a>
+                    <a href="#entregaveis" class="nav-item">
+                        <div class="switch-indicator"><div class="switch-knob"></div></div>
+                        ROTA
+                    </a>
+                    <a href="#contato" class="nav-item">
+                        <div class="switch-indicator"><div class="switch-knob"></div></div>
+                        DECOLAR
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hud-overlay">
+            <div class="hud-corner hc-tl"></div>
+            <div class="hud-corner hc-tr"></div>
+            <div class="hud-corner hc-bl"></div>
+            <div class="hud-corner hc-br"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="status-badge">SISTEMA: VOO VISUAL (VFR) DETECTADO</div>
+            <h1 id="hero-title">PLANO DE VOO<br><span class="gold-text">ESTRATÉGICO</span></h1>
+            <p class="hero-p">Saia do "achismo" e assuma o Piloto Automático da sua empresa com instrumentos de precisão.</p>
+            
+            <div class="throttle-container" id="throttle-container">
+                <div class="throttle-track">ARRASTE PARA DECOLAR >>></div>
+                <div class="throttle-knob" id="throttle-knob"><i class="fas fa-plane"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="problema">
+        <div class="container">
+            <div class="section-header">
+                <h2>VOO <span class="gold-text">ÀS CEGAS?</span></h2>
+                <p style="color: var(--text-muted);">Passe o cursor para ativar o sistema anti-neblina e ver a realidade.</p>
+            </div>
+
+            <div class="fog-grid">
+                <div class="fog-card hover-trigger">
+                    <div class="fog-layer">
+                        <i class="fas fa-exclamation-triangle fog-warning"></i>
+                        <span class="fog-label">VISIBILIDADE ZERO</span>
+                    </div>
+                    <div class="clear-content">
+                        <i class="fas fa-chart-pie problem-icon"></i>
+                        <h3 class="problem-title">Turbulência Financeira</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">"Faturo mas não vejo a cor do dinheiro. Onde está o lucro real?"</p>
+                    </div>
+                </div>
+
+                <div class="fog-card hover-trigger">
+                    <div class="fog-layer">
+                        <i class="fas fa-gas-pump fog-warning"></i>
+                        <span class="fog-label">BAIXO COMBUSTÍVEL</span>
+                    </div>
+                    <div class="clear-content">
+                        <i class="fas fa-filter problem-icon"></i>
+                        <h3 class="problem-title">Combustível Gasto</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">Marketing sem retorno medido. Vendas perdidas por falta de processo.</p>
+                    </div>
+                </div>
+
+                <div class="fog-card hover-trigger">
+                    <div class="fog-layer">
+                        <i class="fas fa-user-clock fog-warning"></i>
+                        <span class="fog-label">FADIGA DO PILOTO</span>
+                    </div>
+                    <div class="clear-content">
+                        <i class="fas fa-network-wired problem-icon"></i>
+                        <h3 class="problem-title">Você é o Gargalo</h3>
+                        <p style="color:#aaa; font-size:0.9rem;">Empresa refém da sua presença. Sem você, o avião cai.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucao" style="background: linear-gradient(to bottom, #050505, #0a0a0a);">
+        <div class="container">
+            <div class="section-header">
+                <h2>INSTRUMENTOS <span class="gold-text">DE BORDO</span></h2>
+                <p style="color: var(--text-muted);">Diagnóstico preciso em 3 fases.</p>
+            </div>
+
+            <div class="radar-flex">
+                <div class="radar-screen">
+                    <div class="radar-grid-lines"></div>
+                    <div class="radar-sweep"></div>
+                    <div class="blip" style="top: 30%; left: 60%;"></div>
+                    <div class="blip" style="top: 70%; left: 40%; animation-delay: 1s;"></div>
+                    <div class="blip" style="top: 40%; left: 20%; animation-delay: 2s;"></div>
+                </div>
+
+                <div class="phase-list">
+                    <div class="phase-card hover-trigger">
+                        <div class="phase-header"><span>FASE 01</span><i class="fas fa-check-circle"></i></div>
+                        <h3 class="phase-title">Instrumentos Financeiros</h3>
+                        <p style="color:#888; font-size: 0.9rem;">DRE Forense, Ponto de Equilíbrio e Margem de Contribuição real.</p>
+                    </div>
+                    <div class="phase-card hover-trigger">
+                        <div class="phase-header"><span>FASE 02</span><i class="fas fa-bullseye"></i></div>
+                        <h3 class="phase-title">Vetor de Tração (Vendas)</h3>
+                        <p style="color:#888; font-size: 0.9rem;">Análise de CAC, LTV e Otimização do Funil de Vendas.</p>
+                    </div>
+                    <div class="phase-card hover-trigger">
+                        <div class="phase-header"><span>FASE 03</span><i class="fas fa-robot"></i></div>
+                        <h3 class="phase-title">Piloto Automático</h3>
+                        <p style="color:#888; font-size: 0.9rem;">Processos, KPIs e estrutura para sua saída do operacional.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="entregaveis">
+        <div class="container">
+            <div class="section-header">
+                <h2>CAIXA <span class="gold-text">PRETA</span></h2>
+                <p style="color: var(--text-muted);">O que você recebe ao final do briefing.</p>
+            </div>
+
+            <div class="files-grid">
+                <div class="classified-folder hover-trigger">
+                    <div class="folder-tab">DOC #001</div>
+                    <div class="folder-body">
+                        <div class="folder-stamp">CONFIDENTIAL</div>
+                        <h3 style="color:#fff; margin-bottom:10px;">Plano de Voo</h3>
+                        <p style="color:#888; font-size:0.9rem;">O manual mestre consolidando todas as 30 análises estratégicas.</p>
+                    </div>
+                </div>
+                <div class="classified-folder hover-trigger">
+                    <div class="folder-tab">DOC #002</div>
+                    <div class="folder-body">
+                        <div class="folder-stamp">TOP SECRET</div>
+                        <h3 style="color:#fff; margin-bottom:10px;">Rota 90 Dias</h3>
+                        <p style="color:#888; font-size:0.9rem;">Plano de ação tático priorizado por impacto imediato.</p>
+                    </div>
+                </div>
+                <div class="classified-folder hover-trigger">
+                    <div class="folder-tab">DOC #003</div>
+                    <div class="folder-body">
+                        <div class="folder-stamp">SYSTEMS</div>
+                        <h3 style="color:#fff; margin-bottom:10px;">Dashboard</h3>
+                        <p style="color:#888; font-size:0.9rem;">Painel de KPIs para monitoramento semanal da saúde da empresa.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="voice-recorder">
+                <div class="recorder-header">
+                    <span>GRAVAÇÃO: COCKPIT #842</span>
+                    <span>STATUS: SUCESSO</span>
+                </div>
+                <div class="waveform">
+                    <div class="bar" style="animation-duration: 0.5s;"></div>
+                    <div class="bar" style="animation-duration: 0.8s;"></div>
+                    <div class="bar" style="animation-duration: 0.3s;"></div>
+                    <div class="bar" style="animation-duration: 0.6s;"></div>
+                    <div class="bar" style="animation-duration: 1.0s;"></div>
+                    <div class="bar" style="animation-duration: 0.4s;"></div>
+                    <div class="bar" style="animation-duration: 0.7s;"></div>
+                </div>
+                <p class="testimonial-text">"O Plano de Voo mudou minha vida. Sai do operacional em 45 dias e dobrei a margem de lucro."</p>
+                <p style="text-align:center; color:var(--gold-dark); margin-top:10px; font-family:var(--font-tech);">- CEO, Logística Silva</p>
+            </div>
+
+            <div class="telemetry-row">
+                <div class="telemetry-item">
+                    <span class="t-val" id="val-roi">0x</span>
+                    <span class="t-label">ROI MÉDIO</span>
+                </div>
+                <div class="telemetry-item">
+                    <span class="t-val" id="val-time">0</span>
+                    <span class="t-label">DIAS P/ IMPLEMENTAR</span>
+                </div>
+                <div class="telemetry-item">
+                    <span class="t-val" id="val-success">0%</span>
+                    <span class="t-label">SUCESSO DE VOO</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="container">
+            <div class="holo-ticket hover-trigger">
+                <div class="ticket-body">
+                    <span style="font-family: var(--font-tech); color: var(--gold-primary);">BOARDING PASS • FIRST CLASS</span>
+                    <h2 class="ticket-dest">BRIEFING DE<br>DECOLAGEM</h2>
+                    <div style="display:flex; justify-content:center; gap:30px; margin-top:20px; color:#888; font-family:var(--font-tech);">
+                        <div>GATE: 01</div>
+                        <div>SEAT: 1A</div>
+                        <div>TIME: AGORA</div>
+                    </div>
+                </div>
+                <div class="ticket-stub">
+                    <p style="color:#aaa; margin-bottom:20px; font-size:0.9rem;">Solicite uma reunião diagnóstica gratuita.</p>
+                    <a href="https://wa.me/551199999999" class="btn-gold">SOLICITAR BRIEFING</a>
+                    <div style="margin-top:15px; font-size:0.75rem; color:#666;">+ INFORMAÇÕES SOBRE O PROGRAMA CO-PILOTO</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-map"></div>
+        <div class="container footer-content">
+            <div>
+                <h4 style="color:#fff; font-family:var(--font-display);">ATR GROWTH</h4>
+                <p style="color:#666;">Bauru, SP - Brasil</p>
+            </div>
+            <div>
+                <a href="#" class="ejetar-btn"><i class="fas fa-exclamation-circle"></i> EJETAR (SUPORTE URGENTE)</a>
+            </div>
+            <div style="color:#444;">&copy; 2025 ATR Growth Business</div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. CURSOR PERSONALIZADO
+        const cursor = document.getElementById('custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const hoverTriggers = document.querySelectorAll('a, button, .hover-trigger, .throttle-knob');
+        hoverTriggers.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('locked'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('locked'));
+        });
+
+        // 2. PRELOADER CHECKLIST
+        const checklistItems = [
+            "CHECANDO HIDRÁULICA...",
+            "PRESSURIZANDO CABINE...",
+            "CONFIGURANDO NAVEGAÇÃO...",
+            "SISTEMAS: OK",
+            "BEM-VINDO A BORDO."
+        ];
+        const checkText = document.getElementById('check-text');
+        const loaderFill = document.getElementById('loader-fill');
+        const preloader = document.getElementById('preloader');
+
+        let step = 0;
+        
+        function runChecklist() {
+            if (step < checklistItems.length) {
+                checkText.innerText = checklistItems[step];
+                checkText.style.opacity = 1;
+                
+                // Animação da barra
+                let progress = ((step + 1) / checklistItems.length) * 100;
+                loaderFill.style.width = progress + "%";
+
+                setTimeout(() => {
+                    step++;
+                    runChecklist();
+                }, 600);
+            } else {
+                setTimeout(() => {
+                    preloader.style.transition = "opacity 0.5s";
+                    preloader.style.opacity = 0;
+                    setTimeout(() => preloader.remove(), 500);
+                    // Iniciar animação dos números após load
+                    animateNumbers();
+                }, 800);
+            }
+        }
+        
+        // Iniciar
+        window.onload = runChecklist;
+
+        // 3. BOTÃO MANETE (THROTTLE)
+        const throttleKnob = document.getElementById('throttle-knob');
+        const throttleContainer = document.getElementById('throttle-container');
+        let isDragging = false;
+        let startX, currentX;
+
+        throttleKnob.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            throttleKnob.style.transition = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            let containerRect = throttleContainer.getBoundingClientRect();
+            let maxDist = containerRect.width - 60; // 60px é a largura do knob
+            
+            let moveX = e.clientX - containerRect.left;
+            
+            if (moveX < 0) moveX = 0;
+            if (moveX > maxDist) moveX = maxDist;
+            
+            throttleKnob.style.left = moveX + 'px';
+
+            // Gatilho de Ativação (> 90%)
+            if (moveX > maxDist * 0.9) {
+                window.location.href = "#contato";
+                isDragging = false;
+                throttleKnob.style.left = maxDist + 'px'; // Trava no final
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            // Retorna ao inicio se não completou
+            throttleKnob.style.transition = 'left 0.3s ease';
+            if (parseInt(throttleKnob.style.left) < 240) { // 240 aprox 80% de 300
+                throttleKnob.style.left = '0px';
+            }
+        });
+
+        // 4. SCROLL ALTIMETER
+        const altIndicator = document.getElementById('alt-indicator');
+        const marks = document.querySelectorAll('.alt-mark');
+        
+        window.addEventListener('scroll', () => {
+            let scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            let indicatorPos = scrollPercent * 300; // 300px altura do container
+            altIndicator.style.top = indicatorPos + 'px';
+
+            // Highlight mark mais próxima
+            marks.forEach((mark, index) => {
+                let markPos = (index / (marks.length - 1)) * 300;
+                if (Math.abs(indicatorPos - markPos) < 30) {
+                    mark.classList.add('active');
+                } else {
+                    mark.classList.remove('active');
+                }
+            });
+        });
+
+        // 5. ANIMAÇÃO DE NÚMEROS (TELEMETRIA)
+        function animateValue(obj, start, end, duration, suffix) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start) + suffix;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        function animateNumbers() {
+            animateValue(document.getElementById("val-roi"), 0, 10, 2000, "x");
+            animateValue(document.getElementById("val-time"), 0, 45, 2000, " Dias");
+            animateValue(document.getElementById("val-success"), 0, 92, 2000, "%");
+        }
+    </script>
+</body>
+</html>
