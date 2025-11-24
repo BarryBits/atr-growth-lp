@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ATR Growth Business | Plano de Voo Estratégico</title>
 
     <link rel="icon" type="image/webp" href="Logo-ATR-Fw.webp">
@@ -23,28 +23,18 @@
         :root {
             /* Palette: Luxury Avionics */
             --bg-deep: #050505;
-            /* Preto Infinito */
             --bg-carbon: #0f1012;
-            /* Carbono Escuro */
             --bg-panel: #141414;
-            /* Painel de Instrumentos */
 
             --gold-primary: #D4AF37;
-            /* Ouro Clássico */
             --gold-dark: #AA8825;
-            /* Ouro Envelhecido */
             --gold-light: #F4E295;
-            /* Brilho Dourado */
 
             --text-main: #E0E0E0;
-            /* Branco Cockpit */
             --text-muted: #888888;
-            /* Cinza Metálico */
 
             --alert-amber: #FFBF00;
-            /* Âmbar de Aviso */
             --success-green: #28a745;
-            /* Verde HUD */
 
             --border-gold: rgba(212, 175, 55, 0.3);
             --glass-bg: rgba(20, 20, 20, 0.7);
@@ -59,7 +49,7 @@
             padding: 0;
             box-sizing: border-box;
             cursor: none;
-            /* Esconde cursor padrão para usar o Custom */
+            /* Cursor padrão oculto para Desktop */
         }
 
         html {
@@ -73,6 +63,15 @@
             font-family: var(--font-body);
             overflow-x: hidden;
             line-height: 1.6;
+            width: 100%;
+        }
+
+        /* Classe utilitária para travar rolagem (Usada no Preloader e Modal) */
+        body.no-scroll {
+            overflow: hidden !important;
+            height: 100vh;
+            /* Fallback */
+            height: 100dvh;
         }
 
         /* Scrollbar Personalizada */
@@ -129,7 +128,7 @@
             z-index: -1;
         }
 
-        /* O Grid de Terreno (Chão Infinito) */
+        /* O Grid de Terreno */
         .terrain-grid {
             position: absolute;
             bottom: -30%;
@@ -142,13 +141,10 @@
             background-size: 60px 60px;
             transform: perspective(300px) rotateX(70deg);
             animation: fly-over 2s linear infinite;
-            /* Movimento constante */
             mask-image: linear-gradient(to top, black 20%, transparent 80%);
-            /* Fade suave no horizonte */
             -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%);
         }
 
-        /* Animação de voo */
         @keyframes fly-over {
             0% {
                 background-position: 0 0;
@@ -159,7 +155,6 @@
             }
         }
 
-        /* Linhas de Scan (Efeito Monitor de Avião) */
         .scanlines {
             position: fixed;
             top: 0;
@@ -173,7 +168,6 @@
             opacity: 0.3;
         }
 
-        /* Brilho no Horizonte (Glow Dourado Distante) */
         .horizon-glow {
             position: absolute;
             top: 30%;
@@ -188,7 +182,6 @@
         /* =========================================
            3. UI INTERATIVA (CURSOR & PRELOADER)
            ========================================= */
-        /* Cursor Mira (Target Lock) */
         #custom-cursor {
             position: fixed;
             width: 40px;
@@ -227,13 +220,15 @@
             }
         }
 
-        /* Preloader Checklist */
+        /* Preloader */
         #preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
+            /* Fallback */
+            height: 100dvh;
             background: #000;
             z-index: 10000;
             display: flex;
@@ -270,7 +265,7 @@
             transition: width 0.1s linear;
         }
 
-        /* Altímetro de Scroll (Lateral Direita) */
+        /* Altímetro Lateral */
         .altimeter-strip {
             position: fixed;
             right: 20px;
@@ -314,7 +309,7 @@
         }
 
         /* =========================================
-           4. HEADER & NAV (CORRIGIDO)
+           4. HEADER & NAV
            ========================================= */
         header {
             position: fixed;
@@ -324,16 +319,11 @@
             background: rgba(5, 5, 5, 0.9);
             border-bottom: 1px solid var(--border-gold);
             backdrop-filter: blur(15px);
-
-            /* ALTURA FIXA 120PX */
             height: 120px;
-
-            /* REMOVIDO display: flex do HEADER para não quebrar o container */
             padding: 0;
             transition: all 0.3s ease;
         }
 
-        /* O Container dentro do header precisa ter 100% da altura para alinhar os itens */
         header .container {
             height: 100%;
         }
@@ -341,9 +331,7 @@
         nav {
             display: flex;
             justify-content: space-between;
-            /* ISSO SEPARA OS LADOS */
             align-items: center;
-            /* ISSO CENTRALIZA VERTICALMENTE */
             height: 100%;
             width: 100%;
         }
@@ -354,7 +342,6 @@
             height: 100%;
         }
 
-        /* LOGO PROPORCIONAL NO HEADER */
         .logo-img-header {
             height: auto;
             max-height: 90px;
@@ -363,7 +350,6 @@
             object-fit: contain;
         }
 
-        /* LOGO PROPORCIONAL NO FOOTER */
         .logo-img-footer {
             height: auto;
             max-height: 60px;
@@ -372,6 +358,7 @@
             margin-bottom: 10px;
         }
 
+        /* Menu Desktop */
         .nav-switches {
             display: flex;
             gap: 30px;
@@ -390,7 +377,6 @@
             gap: 5px;
         }
 
-        /* Switch visual */
         .switch-indicator {
             width: 30px;
             height: 10px;
@@ -426,8 +412,62 @@
             box-shadow: 0 0 10px var(--gold-primary);
         }
 
+        /* Botão Mobile (Invisível no Desktop) */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+        }
+
+        /* Painel Mobile */
+        .mobile-nav-panel {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            background: #000;
+            border-bottom: 2px solid var(--gold-primary);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transform: translateY(-150%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99;
+        }
+
+        .mobile-nav-panel.active {
+            transform: translateY(0);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        .mobile-link {
+            color: #fff;
+            font-family: var(--font-tech);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            padding: 10px;
+            border-left: 2px solid #333;
+            text-decoration: none;
+        }
+
+        .mobile-link:hover,
+        .mobile-link:active {
+            border-color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold-primary);
+        }
+
         /* =========================================
-           5. HERO SECTION (HUD & MANETE)
+           5. HERO SECTION
            ========================================= */
         .hero {
             height: 100vh;
@@ -436,12 +476,9 @@
             justify-content: center;
             position: relative;
             text-align: center;
-
-            /* PADDING AJUSTADO PARA NÃO SOBREPOR (120px Header + 60px Folga) */
             padding-top: 180px;
         }
 
-        /* Elementos HUD decorativos */
         .hud-overlay {
             position: absolute;
             top: 0;
@@ -532,7 +569,6 @@
             font-weight: 300;
         }
 
-        /* Botão Manete de Potência (Slider) */
         .throttle-container {
             width: 300px;
             height: 60px;
@@ -589,7 +625,7 @@
         }
 
         /* =========================================
-           6. PROBLEMA (VOO VISUAL - DESEMBAÇADOR)
+           6. SEÇÕES DE CONTEÚDO
            ========================================= */
         section {
             padding: 100px 0;
@@ -623,7 +659,6 @@
             transition: 0.3s;
         }
 
-        /* Camada de Neblina */
         .fog-layer {
             position: absolute;
             top: 0;
@@ -652,7 +687,6 @@
             letter-spacing: 2px;
         }
 
-        /* Conteúdo Claro (Escondido) */
         .clear-content {
             position: absolute;
             top: 0;
@@ -670,7 +704,6 @@
             transition: 0.4s 0.2s;
         }
 
-        /* Interação Hover */
         .fog-card:hover {
             border-color: var(--alert-amber);
             box-shadow: 0 0 20px rgba(255, 191, 0, 0.1);
@@ -699,9 +732,7 @@
             margin-bottom: 10px;
         }
 
-        /* =========================================
-           7. SOLUÇÃO (RADAR DOURADO)
-           ========================================= */
+        /* Radar */
         .radar-section {
             position: relative;
             overflow: hidden;
@@ -804,9 +835,7 @@
             color: #fff;
         }
 
-        /* =========================================
-           8. ENTREGÁVEIS (PASTAS CLASSIFICADAS)
-           ========================================= */
+        /* Entregáveis */
         .files-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -874,9 +903,7 @@
             opacity: 1;
         }
 
-        /* =========================================
-           9. PROVA SOCIAL (GRAVADOR DE VOZ)
-           ========================================= */
+        /* Prova Social */
         .voice-recorder {
             background: #000;
             border: 1px solid #333;
@@ -959,9 +986,7 @@
             letter-spacing: 1px;
         }
 
-        /* =========================================
-           10. CTA (TICKET HOLOGRÁFICO)
-           ========================================= */
+        /* CTA */
         .holo-ticket {
             max-width: 700px;
             margin: 0 auto;
@@ -981,7 +1006,6 @@
             box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
         }
 
-        /* Efeito Holográfico */
         .holo-ticket::before {
             content: '';
             position: absolute;
@@ -1040,11 +1064,8 @@
             box-shadow: 0 0 20px var(--gold-primary);
         }
 
-        /* =========================================
-           FOOTER (FIX 120px)
-           ========================================= */
+        /* Footer */
         footer {
-            /* ALTURA FIXA 120PX */
             height: 120px;
             background: #000;
             border-top: 1px solid #222;
@@ -1053,7 +1074,6 @@
             z-index: 10;
             display: flex;
             align-items: center;
-            /* Centraliza verticalmente */
             padding: 0;
         }
 
@@ -1073,13 +1093,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            /* Centraliza itens na linha */
             flex-wrap: wrap;
             gap: 30px;
             position: relative;
             z-index: 2;
             width: 100%;
-            /* Ocupa a largura do container */
             height: 100%;
         }
 
@@ -1097,7 +1115,7 @@
         }
 
         /* =========================================
-           11. MODAL DE DOCUMENTOS SECRETOS (NOVO)
+           7. MODAL DOCUMENTOS
            ========================================= */
         .modal-overlay {
             position: fixed;
@@ -1131,30 +1149,24 @@
             max-width: 900px;
             height: 85vh;
             background: #f4f1ea;
-            /* Cor de papel envelhecido/off-white */
             color: #111;
             padding: 60px;
             position: relative;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 0 1px #dcdcdc;
             transform: translateY(100%) scale(0.5);
-            /* Começa lá embaixo e pequeno */
             transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* Efeito elástico */
             overflow-y: auto;
             font-family: 'Courier New', Courier, monospace;
-            /* Fonte Datilografada */
             background-image:
                 linear-gradient(90deg, transparent 49%, rgba(0, 0, 0, 0.05) 50%, transparent 51%),
                 linear-gradient(#e5e5e5 1px, transparent 1px);
             background-size: 100% 100%, 100% 2rem;
-            /* Linhas de caderno */
         }
 
         .modal-overlay.active .secret-paper {
             transform: translateY(0) scale(1);
         }
 
-        /* Detalhes do Papel */
         .paper-header {
             border-bottom: 2px solid #333;
             margin-bottom: 30px;
@@ -1196,7 +1208,6 @@
             line-height: 1.6;
         }
 
-        /* Grid de Análises (Para o Plano de Voo) */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1253,27 +1264,11 @@
             transform: rotate(90deg);
         }
 
-        /* Scrollbar do papel */
-        .secret-paper::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .secret-paper::-webkit-scrollbar-track {
-            background: #e0ddd5;
-        }
-
-        .secret-paper::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 4px;
-        }
-
-        /* Timeline Tática */
         .timeline-container {
             position: relative;
             padding-left: 30px;
             margin-top: 20px;
             border-left: 2px dashed #999;
-            /* Linha pontilhada vertical */
         }
 
         .mission-block {
@@ -1285,11 +1280,9 @@
         }
 
         .mission-block::before {
-            /* O ponto na linha do tempo */
             content: '';
             position: absolute;
             left: -41px;
-            /* Ajuste fino para centralizar na linha */
             top: 20px;
             width: 16px;
             height: 16px;
@@ -1334,46 +1327,102 @@
             color: #333;
         }
 
-        /* Responsivo */
+        /* =========================================
+           8. RESPONSIVIDADE & FIX MOBILE
+           ========================================= */
         @media(max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
+
+            /* Estabilização */
+            html,
+            body {
+                height: 100dvh;
+                overflow-x: hidden;
+                cursor: auto !important;
+            }
+
+            #custom-cursor {
+                display: none !important;
+            }
+
+            /* Header Mobile */
+            header {
+                height: 80px;
+                padding: 0 15px;
+            }
+
+            .logo-img-header {
+                max-height: 50px;
             }
 
             .nav-switches {
                 display: none;
             }
 
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+
+            .mobile-nav-panel {
+                top: 80px;
+            }
+
             .altimeter-strip {
                 display: none;
             }
 
-            #custom-cursor {
-                display: none;
-            }
-
-            * {
-                cursor: auto;
-            }
-
+            /* Radar Fix */
             .radar-flex {
                 flex-direction: column;
             }
 
             .radar-screen {
-                width: 300px;
-                height: 300px;
+                width: 280px;
+                height: 280px;
             }
 
+            .blip {
+                z-index: 10;
+            }
+
+            /* Throttle & Hero */
             .throttle-container {
-                width: 80%;
+                width: 85%;
             }
 
-            /* Responsivo Modal */
+            .hero {
+                padding-top: 100px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-p {
+                padding: 0 20px;
+                font-size: 1rem;
+            }
+
+            /* Grid Terreno */
+            .terrain-grid {
+                perspective: 800px;
+                transform: perspective(800px) rotateX(60deg);
+                will-change: transform, background-position;
+                opacity: 0.5;
+            }
+
+            /* Modal Fix */
+            .modal-overlay {
+                align-items: flex-end;
+            }
+
             .secret-paper {
+                width: 100%;
+                height: 85dvh;
+                border-radius: 20px 20px 0 0;
                 padding: 30px 20px;
-                width: 95%;
-                height: 90vh;
+                transform: translateY(100%);
+                max-width: none;
+                overscroll-behavior: contain;
             }
 
             .paper-stamp {
@@ -1387,12 +1436,31 @@
             .modules-grid {
                 grid-template-columns: 1fr;
             }
+
+            /* CTA Fix */
+            .holo-ticket {
+                margin: 0;
+                transform: none !important;
+                width: 100%;
+            }
+
+            .ticket-body {
+                padding: 20px 10px;
+            }
+
+            .ticket-dest {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
 
-<body>
-
+<body class="no-scroll">
     <div id="preloader">
         <div class="check-text" id="check-text">INICIANDO SISTEMAS...</div>
         <div class="loader-bar">
@@ -1449,9 +1517,19 @@
                         DECOLAR
                     </a>
                 </div>
+                <div class="mobile-menu-btn" id="mobile-menu-trigger">
+                    <i class="fas fa-bars"></i>
+                </div>
             </nav>
         </div>
     </header>
+
+    <div class="mobile-nav-panel" id="mobile-panel">
+        <a href="#problema" class="mobile-link">01. Radar (Problema)</a>
+        <a href="#solucao" class="mobile-link">02. Painel (Solução)</a>
+        <a href="#entregaveis" class="mobile-link">03. Rota (Entregas)</a>
+        <a href="#contato" class="mobile-link" style="color:var(--gold-primary);">04. Decolar (Contato)</a>
+    </div>
 
     <section class="hero">
         <div class="hud-overlay">
@@ -1704,7 +1782,7 @@
     </div>
 
     <script>
-        // 1. CURSOR PERSONALIZADO
+        // 1. CURSOR PERSONALIZADO (Só Desktop)
         const cursor = document.getElementById('custom-cursor');
 
         document.addEventListener('mousemove', (e) => {
@@ -1750,22 +1828,50 @@
                     if (preloader) {
                         preloader.style.transition = "opacity 0.5s";
                         preloader.style.opacity = 0;
-                        setTimeout(() => preloader.remove(), 500);
+                        setTimeout(() => {
+                            preloader.remove();
+                            document.body.classList.remove('no-scroll'); // Destrava o site
+                        }, 500);
                     }
-                    // Iniciar animação dos números após load
                     animateNumbers();
                 }, 800);
             }
         }
 
-        // Iniciar
         window.onload = runChecklist;
 
-        // 3. BOTÃO MANETE (THROTTLE)
+        // 3. MENU MOBILE LOGIC
+        const mobileBtn = document.getElementById('mobile-menu-trigger');
+        const mobilePanel = document.getElementById('mobile-panel');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        if (mobileBtn) {
+            mobileBtn.addEventListener('click', () => {
+                mobilePanel.classList.toggle('active');
+                const icon = mobileBtn.querySelector('i');
+                if (mobilePanel.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobilePanel.classList.remove('active');
+                    mobileBtn.querySelector('i').classList.remove('fa-times');
+                    mobileBtn.querySelector('i').classList.add('fa-bars');
+                });
+            });
+        }
+
+        // 4. BOTÃO MANETE (THROTTLE)
         const throttleKnob = document.getElementById('throttle-knob');
         const throttleContainer = document.getElementById('throttle-container');
         let isDragging = false;
-        let startX, currentX;
+        let startX;
 
         if (throttleKnob && throttleContainer) {
             throttleKnob.addEventListener('mousedown', (e) => {
@@ -1774,47 +1880,57 @@
                 throttleKnob.style.transition = 'none';
             });
 
-            document.addEventListener('mousemove', (e) => {
+            // Suporte a Touch
+            throttleKnob.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                startX = e.touches[0].clientX;
+                throttleKnob.style.transition = 'none';
+            });
+
+            const handleMove = (clientX) => {
                 if (!isDragging) return;
                 let containerRect = throttleContainer.getBoundingClientRect();
-                let maxDist = containerRect.width - 60; // 60px é a largura do knob
+                let maxDist = containerRect.width - 60;
 
-                let moveX = e.clientX - containerRect.left;
+                let moveX = clientX - containerRect.left;
 
                 if (moveX < 0) moveX = 0;
                 if (moveX > maxDist) moveX = maxDist;
 
                 throttleKnob.style.left = moveX + 'px';
 
-                // Gatilho de Ativação (> 90%)
                 if (moveX > maxDist * 0.9) {
                     window.location.href = "#contato";
                     isDragging = false;
-                    throttleKnob.style.left = maxDist + 'px'; // Trava no final
+                    throttleKnob.style.left = maxDist + 'px';
                 }
-            });
+            };
 
-            document.addEventListener('mouseup', () => {
+            document.addEventListener('mousemove', (e) => handleMove(e.clientX));
+            document.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX));
+
+            const endDrag = () => {
                 if (!isDragging) return;
                 isDragging = false;
-                // Retorna ao inicio se não completou
                 throttleKnob.style.transition = 'left 0.3s ease';
                 if (parseInt(throttleKnob.style.left) < 240) {
                     throttleKnob.style.left = '0px';
                 }
-            });
+            };
+
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
         }
 
-        // 4. SCROLL ALTIMETER
+        // 5. SCROLL ALTIMETER
         const altIndicator = document.getElementById('alt-indicator');
         const marks = document.querySelectorAll('.alt-mark');
 
         window.addEventListener('scroll', () => {
             let scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            let indicatorPos = scrollPercent * 300; // 300px altura do container
+            let indicatorPos = scrollPercent * 300;
             if (altIndicator) altIndicator.style.top = indicatorPos + 'px';
 
-            // Highlight mark mais próxima
             marks.forEach((mark, index) => {
                 let markPos = (index / (marks.length - 1)) * 300;
                 if (Math.abs(indicatorPos - markPos) < 30) {
@@ -1825,7 +1941,7 @@
             });
         });
 
-        // 5. ANIMAÇÃO DE NÚMEROS (TELEMETRIA)
+        // 6. ANIMAÇÃO DE NÚMEROS
         function animateValue(obj, start, end, duration, suffix) {
             if (!obj) return;
             let startTimestamp = null;
@@ -1846,13 +1962,12 @@
             animateValue(document.getElementById("val-success"), 0, 92, 2000, "%");
         }
 
-        // 6. SISTEMA DE DOCUMENTOS (MODAL)
+        // 7. SISTEMA DE DOCUMENTOS (MODAL)
         const modal = document.getElementById('doc-modal');
         const closeBtn = document.getElementById('close-btn');
         const docTitle = document.getElementById('doc-title');
         const docBody = document.getElementById('doc-body');
 
-        // Dados dos Documentos (Conteúdo do Dossiê Adaptado)
         const docsData = {
             'DOC #001': {
                 title: 'PLANO DE VOO (30 ANÁLISES)',
@@ -2063,32 +2178,31 @@
             }
         };
 
-        // Selecionar as pastas
         const folders = document.querySelectorAll('.classified-folder');
 
         folders.forEach(folder => {
             folder.addEventListener('click', () => {
-                // Pegar o ID do doc (DOC #001, etc) que está na aba da pasta
                 const docId = folder.querySelector('.folder-tab').innerText.trim();
 
                 if (docsData[docId]) {
                     docTitle.innerText = docsData[docId].title;
                     docBody.innerHTML = docsData[docId].content;
-
                     modal.classList.add('active');
+                    document.body.classList.add('no-scroll'); // Trava o site
                 }
             });
         });
 
-        // Fechar Modal
-        closeBtn.addEventListener('click', () => {
+        const closeModal = () => {
             modal.classList.remove('active');
-        });
+            document.body.classList.remove('no-scroll');
+        };
 
-        // Fechar ao clicar fora do papel
+        closeBtn.addEventListener('click', closeModal);
+
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('active');
+                closeModal();
             }
         });
     </script>
