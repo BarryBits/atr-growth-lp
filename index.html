@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATR Growth Business | Plano de Voo Estratégico</title>
 
+    <link rel="icon" type="image/webp" href="Logo-ATR-Fw.webp">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -312,7 +314,7 @@
         }
 
         /* =========================================
-           4. HEADER & NAV (OVERHEAD PANEL)
+           4. HEADER & NAV (CORRIGIDO)
            ========================================= */
         header {
             position: fixed;
@@ -322,41 +324,52 @@
             background: rgba(5, 5, 5, 0.9);
             border-bottom: 1px solid var(--border-gold);
             backdrop-filter: blur(15px);
-            padding: 15px 0;
+
+            /* ALTURA FIXA 120PX */
+            height: 120px;
+
+            /* REMOVIDO display: flex do HEADER para não quebrar o container */
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+
+        /* O Container dentro do header precisa ter 100% da altura para alinhar os itens */
+        header .container {
+            height: 100%;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
+            /* ISSO SEPARA OS LADOS */
             align-items: center;
+            /* ISSO CENTRALIZA VERTICALMENTE */
+            height: 100%;
+            width: 100%;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            height: 100%;
         }
 
-        .logo-icon {
-            font-size: 2rem;
-            color: var(--gold-primary);
-        }
-
-        .logo-text {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            color: #fff;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo-sub {
-            font-family: var(--font-tech);
-            font-size: 0.7rem;
-            color: var(--gold-primary);
+        /* LOGO PROPORCIONAL NO HEADER */
+        .logo-img-header {
+            height: auto;
+            max-height: 90px;
+            width: auto;
             display: block;
-            letter-spacing: 3px;
-            margin-top: -5px;
+            object-fit: contain;
+        }
+
+        /* LOGO PROPORCIONAL NO FOOTER */
+        .logo-img-footer {
+            height: auto;
+            max-height: 60px;
+            width: auto;
+            display: block;
+            margin-bottom: 10px;
         }
 
         .nav-switches {
@@ -423,7 +436,9 @@
             justify-content: center;
             position: relative;
             text-align: center;
-            padding-top: 80px;
+
+            /* PADDING AJUSTADO PARA NÃO SOBREPOR (120px Header + 60px Folga) */
+            padding-top: 180px;
         }
 
         /* Elementos HUD decorativos */
@@ -1025,14 +1040,21 @@
             box-shadow: 0 0 20px var(--gold-primary);
         }
 
-        /* Footer */
+        /* =========================================
+           FOOTER (FIX 120px)
+           ========================================= */
         footer {
-            padding: 50px 0 20px;
+            /* ALTURA FIXA 120PX */
+            height: 120px;
             background: #000;
             border-top: 1px solid #222;
             font-size: 0.9rem;
             position: relative;
             z-index: 10;
+            display: flex;
+            align-items: center;
+            /* Centraliza verticalmente */
+            padding: 0;
         }
 
         .footer-map {
@@ -1050,10 +1072,15 @@
         .footer-content {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            /* Centraliza itens na linha */
             flex-wrap: wrap;
             gap: 30px;
             position: relative;
             z-index: 2;
+            width: 100%;
+            /* Ocupa a largura do container */
+            height: 100%;
         }
 
         .ejetar-btn {
@@ -1394,11 +1421,7 @@
         <div class="container">
             <nav>
                 <div class="logo-container">
-                    <i class="fas fa-plane-up logo-icon"></i>
-                    <div>
-                        <div class="logo-text">ATR <span style="color:var(--gold-primary)">GROWTH</span></div>
-                        <span class="logo-sub">BUSINESS CONSULTING</span>
-                    </div>
+                    <img src="Logo-ATR-Fw.png" alt="ATR Growth Business" class="logo-img-header">
                 </div>
                 <div class="nav-switches">
                     <a href="#problema" class="nav-item">
@@ -1650,7 +1673,7 @@
         <div class="footer-map"></div>
         <div class="container footer-content">
             <div>
-                <h4 style="color:#fff; font-family:var(--font-display);">ATR GROWTH</h4>
+                <img src="Logo-ATR-Fw.png" alt="ATR Growth Business" class="logo-img-footer">
                 <p style="color:#666;">Bauru, SP - Brasil</p>
             </div>
             <div>
