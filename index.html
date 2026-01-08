@@ -3,2208 +3,1455 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ATR Growth Business | Plano de Voo Estratégico</title>
-
-    <link rel="icon" type="image/webp" href="Logo-ATR-Fw.webp">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATR OS | Diagnóstico Empresarial em 24 Horas</title>
+    <meta name="description"
+        content="ATR OS - Sistema operacional de consultoria que une metodologia proprietária e IA para entregar diagnóstico financeiro, comercial e de gestão em 24 horas.">
+    <meta name="keywords"
+        content="consultoria empresarial, diagnóstico financeiro, ATR OS, gestão empresarial, inteligência artificial">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600;800&family=Rajdhani:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <link rel="icon" type="image/webp" href="favicon.webp">
+    <link rel="apple-touch-icon" href="logo.png">
     <style>
-        /* =========================================
-           1. VARIÁVEIS & RESET (DESIGN SYSTEM)
-           ========================================= */
         :root {
-            /* Palette: Luxury Avionics */
-            --bg-deep: #050505;
-            --bg-carbon: #0f1012;
-            --bg-panel: #141414;
-
-            --gold-primary: #D4AF37;
-            --gold-dark: #AA8825;
-            --gold-light: #F4E295;
-
-            --text-main: #E0E0E0;
-            --text-muted: #888888;
-
-            --alert-amber: #FFBF00;
-            --success-green: #28a745;
-
-            --border-gold: rgba(212, 175, 55, 0.3);
-            --glass-bg: rgba(20, 20, 20, 0.7);
-
-            --font-display: 'Cinzel', serif;
-            --font-tech: 'Rajdhani', sans-serif;
-            --font-body: 'Montserrat', sans-serif;
+            --gold: #C9A227;
+            --gold-light: #E8D48A;
+            --gold-dark: #8B7019;
+            --black: #0A0A0A;
+            --black-light: #141414;
+            --black-lighter: #1E1E1E;
+            --white: #FAFAFA;
+            --gray: #888888;
+            --gray-dark: #444444;
+            --gradient-gold: linear-gradient(135deg, #C9A227 0%, #E8D48A 50%, #C9A227 100%);
+            --gradient-dark: linear-gradient(180deg, #0A0A0A 0%, #141414 100%);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none;
-            /* Cursor padrão oculto para Desktop */
         }
 
         html {
             scroll-behavior: smooth;
-            font-size: 16px;
         }
 
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
             line-height: 1.6;
-            width: 100%;
+            overflow-x: hidden;
         }
 
-        /* Classe utilitária para travar rolagem (Usada no Preloader e Modal) */
-        body.no-scroll {
-            overflow: hidden !important;
-            height: 100vh;
-            /* Fallback */
-            height: 100dvh;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
         }
 
-        /* Scrollbar Personalizada */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gold-dark);
-            border-radius: 3px;
-        }
-
-        /* =========================================
-           2. BACKGROUND (SYNTHETIC VISION SYSTEM)
-           ========================================= */
-        .gold-text {
-            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 50%, var(--gold-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-        }
-
-        .tech-font {
-            font-family: var(--font-tech);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .display-font {
-            font-family: var(--font-display);
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
+            padding: 0 24px;
         }
 
-        /* Viewport do Cockpit */
-        .cockpit-view {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #050505;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        /* O Grid de Terreno */
-        .terrain-grid {
-            position: absolute;
-            bottom: -30%;
-            left: -50%;
-            width: 200%;
-            height: 100%;
-            background-image:
-                linear-gradient(0deg, transparent 24%, rgba(212, 175, 55, 0.15) 25%, rgba(212, 175, 55, 0.15) 26%, transparent 27%, transparent 74%, rgba(212, 175, 55, 0.15) 75%, rgba(212, 175, 55, 0.15) 76%, transparent 77%, transparent),
-                linear-gradient(90deg, transparent 24%, rgba(212, 175, 55, 0.15) 25%, rgba(212, 175, 55, 0.15) 26%, transparent 27%, transparent 74%, rgba(212, 175, 55, 0.15) 75%, rgba(212, 175, 55, 0.15) 76%, transparent 77%, transparent);
-            background-size: 60px 60px;
-            transform: perspective(300px) rotateX(70deg);
-            animation: fly-over 2s linear infinite;
-            mask-image: linear-gradient(to top, black 20%, transparent 80%);
-            -webkit-mask-image: linear-gradient(to top, black 20%, transparent 80%);
-        }
-
-        @keyframes fly-over {
-            0% {
-                background-position: 0 0;
-            }
-
-            100% {
-                background-position: 0 60px;
-            }
-        }
-
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .horizon-glow {
-            position: absolute;
-            top: 30%;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
-            z-index: -1;
-            filter: blur(40px);
-        }
-
-        /* =========================================
-           3. UI INTERATIVA (CURSOR & PRELOADER)
-           ========================================= */
-        #custom-cursor {
-            position: fixed;
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--gold-primary);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 9999;
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #custom-cursor::after {
-            content: '';
-            width: 4px;
-            height: 4px;
-            background: var(--gold-primary);
-            border-radius: 50%;
-        }
-
-        #custom-cursor.locked {
-            width: 60px;
-            height: 60px;
-            border-color: var(--alert-amber);
-            background: rgba(255, 191, 0, 0.1);
-            border-style: dashed;
-            animation: spin-cursor 4s linear infinite;
-        }
-
-        @keyframes spin-cursor {
-            100% {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            /* Fallback */
-            height: 100dvh;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .check-text {
-            font-family: var(--font-tech);
-            color: var(--gold-primary);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            min-height: 2rem;
-            text-align: center;
-        }
-
-        .loader-bar {
-            width: 200px;
-            height: 2px;
-            background: #333;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0%;
-            background: var(--gold-primary);
-            box-shadow: 0 0 10px var(--gold-primary);
-            transition: width 0.1s linear;
-        }
-
-        /* Altímetro Lateral */
-        .altimeter-strip {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 300px;
-            width: 40px;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 90;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-end;
-            padding-right: 10px;
-            pointer-events: none;
-        }
-
-        .alt-mark {
-            font-family: var(--font-tech);
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            transition: 0.3s;
-        }
-
-        .alt-mark.active {
-            color: var(--gold-primary);
-            font-size: 1rem;
-            font-weight: bold;
-            text-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        .alt-indicator {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 10px;
-            height: 2px;
-            background: var(--gold-primary);
-            box-shadow: 0 0 5px var(--gold-primary);
-            transition: top 0.1s ease-out;
-        }
-
-        /* =========================================
-           4. HEADER & NAV
-           ========================================= */
+        /* ===== HEADER ===== */
         header {
             position: fixed;
             top: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(5, 5, 5, 0.9);
-            border-bottom: 1px solid var(--border-gold);
-            backdrop-filter: blur(15px);
-            height: 120px;
-            padding: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 162, 39, 0.1);
             transition: all 0.3s ease;
         }
 
-        header .container {
-            height: 100%;
+        header.scrolled {
+            padding: 12px 0;
+            background: rgba(10, 10, 10, 0.98);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            height: 56px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-os {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            opacity: 0.8;
+            letter-spacing: 2px;
         }
 
         nav {
             display: flex;
-            justify-content: space-between;
+            gap: 32px;
             align-items: center;
-            height: 100%;
+        }
+
+        nav a {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray);
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--gold);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
             width: 100%;
         }
 
-        .logo-container {
-            display: flex;
+        .btn {
+            display: inline-flex;
             align-items: center;
-            height: 100%;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
         }
 
-        .logo-img-header {
-            height: auto;
-            max-height: 90px;
-            width: auto;
-            display: block;
-            object-fit: contain;
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: var(--black);
         }
 
-        .logo-img-footer {
-            height: auto;
-            max-height: 60px;
-            width: auto;
-            display: block;
-            margin-bottom: 10px;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201, 162, 39, 0.3);
         }
 
-        /* Menu Desktop */
-        .nav-switches {
-            display: flex;
-            gap: 30px;
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
         }
 
-        .nav-item {
-            position: relative;
-            text-decoration: none;
-            color: var(--text-muted);
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--black);
         }
 
-        .switch-indicator {
-            width: 30px;
-            height: 10px;
-            border: 1px solid #333;
-            background: #000;
-            position: relative;
-            margin-bottom: 2px;
-        }
-
-        .switch-knob {
-            width: 10px;
-            height: 14px;
-            background: #444;
-            position: absolute;
-            left: 2px;
-            top: -2px;
-            transition: 0.3s;
-            border: 1px solid #666;
-        }
-
-        .nav-item:hover {
-            color: var(--gold-primary);
-        }
-
-        .nav-item:hover .switch-indicator {
-            border-color: var(--gold-primary);
-            box-shadow: 0 0 5px rgba(212, 175, 55, 0.2);
-        }
-
-        .nav-item:hover .switch-knob {
-            left: 16px;
-            background: var(--gold-primary);
-            box-shadow: 0 0 10px var(--gold-primary);
-        }
-
-        /* Botão Mobile (Invisível no Desktop) */
-        .mobile-menu-btn {
+        .hamburger {
             display: none;
-            font-size: 1.5rem;
-            color: var(--gold-primary);
-            border: 1px solid var(--gold-primary);
-            width: 40px;
-            height: 40px;
-            justify-content: center;
-            align-items: center;
-            border-radius: 5px;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 200;
-        }
-
-        /* Painel Mobile */
-        .mobile-nav-panel {
-            position: fixed;
-            top: 80px;
-            left: 0;
-            width: 100%;
-            background: #000;
-            border-bottom: 2px solid var(--gold-primary);
-            padding: 20px;
-            display: flex;
             flex-direction: column;
-            gap: 15px;
-            transform: translateY(-150%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 99;
+            gap: 5px;
+            cursor: pointer;
         }
 
-        .mobile-nav-panel.active {
-            transform: translateY(0);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--gold);
+            transition: all 0.3s ease;
         }
 
-        .mobile-link {
-            color: #fff;
-            font-family: var(--font-tech);
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            padding: 10px;
-            border-left: 2px solid #333;
-            text-decoration: none;
-        }
-
-        .mobile-link:hover,
-        .mobile-link:active {
-            border-color: var(--gold-primary);
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--gold-primary);
-        }
-
-        /* =========================================
-           5. HERO SECTION
-           ========================================= */
+        /* ===== HERO ===== */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            text-align: center;
-            padding-top: 180px;
-        }
-
-        .hud-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .hud-corner {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border: 2px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .hc-tl {
-            top: 100px;
-            left: 20px;
-            border-right: none;
-            border-bottom: none;
-        }
-
-        .hc-tr {
-            top: 100px;
-            right: 20px;
-            border-left: none;
-            border-bottom: none;
-        }
-
-        .hc-bl {
-            bottom: 20px;
-            left: 20px;
-            border-right: none;
-            border-top: none;
-        }
-
-        .hc-br {
-            bottom: 20px;
-            right: 20px;
-            border-left: none;
-            border-top: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 5;
-            max-width: 800px;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 5px 15px;
-            border: 1px solid var(--gold-primary);
-            color: var(--gold-primary);
-            font-family: var(--font-tech);
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            background: rgba(212, 175, 55, 0.05);
-            animation: blink-soft 2s infinite;
-        }
-
-        @keyframes blink-soft {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        h1 {
-            font-family: var(--font-display);
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .hero-p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            font-weight: 300;
-        }
-
-        .throttle-container {
-            width: 300px;
-            height: 60px;
-            margin: 0 auto;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 30px;
+            padding: 120px 0 80px;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 20px #000;
         }
 
-        .throttle-track {
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-tech);
-            color: #444;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(201, 162, 39, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(201, 162, 39, 0.05) 0%, transparent 50%);
             pointer-events: none;
-            transition: 0.3s;
         }
 
-        .throttle-knob {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
-            border-radius: 50%;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(201, 162, 39, 0.1);
+            border: 1px solid rgba(201, 162, 39, 0.3);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 16px;
+            max-width: 540px;
+        }
+
+        .hero-highlight {
+            font-size: 1rem;
+            color: var(--gold-light);
+            margin-bottom: 40px;
+            padding: 16px 20px;
+            background: rgba(201, 162, 39, 0.08);
+            border-left: 3px solid var(--gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-card {
+            background: var(--black-light);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
             position: absolute;
-            left: 0;
             top: 0;
-            cursor: grab;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .hero-card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(201, 162, 39, 0.15);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 15px var(--gold-primary);
-            z-index: 10;
         }
 
-        .throttle-knob i {
-            color: #000;
-            font-size: 1.2rem;
+        .hero-card-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--gold);
         }
 
-        .throttle-knob:active {
-            cursor: grabbing;
-            transform: scale(0.95);
+        .hero-card h3 {
+            font-size: 1.125rem;
+            color: var(--white);
         }
 
-        /* =========================================
-           6. SEÇÕES DE CONTEÚDO
-           ========================================= */
+        .hero-card p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .metric-item {
+            background: rgba(201, 162, 39, 0.05);
+            border: 1px solid rgba(201, 162, 39, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-item:hover {
+            background: rgba(201, 162, 39, 0.1);
+            border-color: rgba(201, 162, 39, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        /* ===== SECTIONS ===== */
         section {
             padding: 100px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            max-width: 700px;
+            margin: 0 auto 64px;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
         }
 
         .section-header h2 {
-            font-family: var(--font-display);
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
 
-        .fog-grid {
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--gray);
+        }
+
+        /* ===== PROBLEMA ===== */
+        #problema {
+            background: var(--gradient-dark);
+            position: relative;
+        }
+
+        .problem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
         }
 
-        .fog-card {
-            background: var(--bg-carbon);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            height: 300px;
-            transition: 0.3s;
-        }
-
-        .fog-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px) grayscale(80%);
-            z-index: 2;
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .fog-warning {
-            color: var(--alert-amber);
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        .fog-label {
-            font-family: var(--font-tech);
-            color: var(--text-muted);
-            letter-spacing: 2px;
-        }
-
-        .clear-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 1;
-            opacity: 0;
-            transition: 0.4s 0.2s;
-        }
-
-        .fog-card:hover {
-            border-color: var(--alert-amber);
-            box-shadow: 0 0 20px rgba(255, 191, 0, 0.1);
-        }
-
-        .fog-card:hover .fog-layer {
-            opacity: 0;
-            backdrop-filter: blur(0px);
-            transform: scale(1.1);
-        }
-
-        .fog-card:hover .clear-content {
-            opacity: 1;
-        }
-
-        .problem-icon {
-            font-size: 2rem;
-            color: var(--gold-primary);
-            margin-bottom: 15px;
-        }
-
-        .problem-title {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-
-        /* Radar */
-        .radar-section {
+        .problem-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .radar-flex {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 50px;
-            justify-content: center;
-        }
-
-        .radar-screen {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #000 0%, #111 100%);
-            border-radius: 50%;
-            border: 4px solid #333;
-            position: relative;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-        }
-
-        .radar-grid-lines {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-image:
-                radial-gradient(transparent 30%, rgba(212, 175, 55, 0.1) 31%, transparent 32%),
-                radial-gradient(transparent 60%, rgba(212, 175, 55, 0.1) 61%, transparent 62%),
-                linear-gradient(transparent 49.5%, rgba(212, 175, 55, 0.1) 50%, transparent 50.5%),
-                linear-gradient(90deg, transparent 49.5%, rgba(212, 175, 55, 0.1) 50%, transparent 50.5%);
-        }
-
-        .radar-sweep {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent 270deg, rgba(212, 175, 55, 0.4) 360deg);
-            animation: radar-spin 4s linear infinite;
-        }
-
-        @keyframes radar-spin {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .blip {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #fff;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #fff, 0 0 20px var(--gold-primary);
-            animation: blip-pulse 2s infinite;
-        }
-
-        .phase-list {
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .phase-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 3px solid #444;
-            padding: 20px;
-            transition: 0.3s;
-        }
-
-        .phase-card:hover {
-            border-left-color: var(--gold-primary);
-            background: rgba(212, 175, 55, 0.05);
-            transform: translateX(10px);
-        }
-
-        .phase-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-family: var(--font-tech);
-            color: var(--gold-primary);
-        }
-
-        .phase-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        /* Entregáveis */
-        .files-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-        }
-
-        .classified-folder {
-            background: #1a1a1a;
-            padding: 5px;
-            position: relative;
-            border-top: 2px solid #333;
-            transition: 0.4s;
-        }
-
-        .folder-tab {
-            position: absolute;
-            top: -25px;
-            left: 0;
-            width: 40%;
-            height: 25px;
-            background: #1a1a1a;
-            clip-path: polygon(0 0, 85% 0, 100% 100%, 0 100%);
-            display: flex;
-            align-items: center;
-            padding-left: 15px;
-            font-family: var(--font-tech);
-            font-size: 0.7rem;
-            color: var(--gold-primary);
-        }
-
-        .folder-body {
-            background: #111;
-            padding: 30px 20px;
-            border: 1px solid #333;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .folder-stamp {
-            position: absolute;
-            right: 20px;
-            top: 10px;
-            border: 2px solid var(--gold-primary);
-            color: var(--gold-primary);
-            padding: 2px 8px;
-            font-family: var(--font-tech);
-            font-weight: bold;
-            transform: rotate(-10deg);
-            font-size: 0.8rem;
-            opacity: 0.5;
-        }
-
-        .classified-folder:hover {
-            transform: translateY(-10px);
-        }
-
-        .classified-folder:hover .folder-tab,
-        .classified-folder:hover .folder-body {
-            border-color: var(--gold-primary);
-            background: #151515;
-        }
-
-        .classified-folder:hover .folder-stamp {
-            opacity: 1;
-        }
-
-        /* Prova Social */
-        .voice-recorder {
-            background: #000;
-            border: 1px solid #333;
-            padding: 40px;
-            max-width: 800px;
-            margin: 0 auto;
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .recorder-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            font-family: var(--font-tech);
-            color: var(--gold-dark);
-        }
-
-        .waveform {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 50px;
-            gap: 3px;
-            margin-bottom: 20px;
-        }
-
-        .bar {
-            width: 3px;
-            background: var(--gold-primary);
-            animation: wave 1s infinite ease-in-out;
-        }
-
-        @keyframes wave {
-
-            0%,
-            100% {
-                height: 10px;
-                opacity: 0.3;
-            }
-
-            50% {
-                height: 40px;
-                opacity: 1;
-            }
-        }
-
-        .testimonial-text {
-            font-family: 'Courier New', monospace;
-            color: var(--text-main);
-            font-size: 1.1rem;
-            text-align: center;
-        }
-
-        .telemetry-row {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 50px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .telemetry-item {
-            text-align: center;
-        }
-
-        .t-val {
-            font-family: var(--font-tech);
-            font-size: 2.5rem;
-            color: #fff;
-            font-weight: bold;
-            display: block;
-        }
-
-        .t-label {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        /* CTA */
-        .holo-ticket {
-            max-width: 700px;
-            margin: 0 auto;
-            background: #000;
-            border: 1px solid var(--gold-primary);
-            border-radius: 15px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            transition: 0.4s;
-        }
-
-        .holo-ticket:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
-        }
-
-        .holo-ticket::before {
+        .problem-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.2), transparent);
-            transform: skewX(-25deg);
-            transition: 0.5s;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(201, 162, 39, 0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .problem-card:hover::before {
+            opacity: 1;
+        }
+
+        .problem-card:hover {
+            border-color: rgba(201, 162, 39, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .problem-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(201, 162, 39, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .problem-card p {
+            font-size: 0.9375rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* ===== ATR OS (Solução) ===== */
+        #solucao {
+            background: var(--black);
+            position: relative;
+        }
+
+        #solucao::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(201, 162, 39, 0.08) 0%, transparent 50%);
             pointer-events: none;
         }
 
-        .holo-ticket:hover::before {
-            left: 150%;
-            transition: 0.8s ease-in-out;
+        .atr-os-intro {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+            margin-bottom: 80px;
         }
 
-        .ticket-body {
-            padding: 40px;
+        .atr-os-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+        }
+
+        .atr-os-text h2 span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .atr-os-text p {
+            font-size: 1.125rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .atr-os-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .stat-item {
             text-align: center;
-            border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
         }
 
-        .ticket-dest {
+        .stat-value {
+            font-family: 'Outfit', sans-serif;
             font-size: 3rem;
-            font-family: var(--font-display);
-            color: #fff;
-            margin: 10px 0;
-        }
-
-        .ticket-stub {
-            padding: 20px;
-            background: #0f0f0f;
-            text-align: center;
-        }
-
-        .btn-gold {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(to bottom, var(--gold-primary), var(--gold-dark));
-            color: #000;
             font-weight: 800;
-            text-transform: uppercase;
-            font-family: var(--font-tech);
-            letter-spacing: 1px;
-            text-decoration: none;
-            border-radius: 4px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: 0.3s;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .btn-gold:hover {
-            filter: brightness(1.2);
-            box-shadow: 0 0 20px var(--gold-primary);
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray);
         }
 
-        /* Footer */
-        footer {
-            height: 120px;
-            background: #000;
-            border-top: 1px solid #222;
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 10;
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .pillar-card {
+            background: var(--black-light);
+            border: 1px solid rgba(201, 162, 39, 0.15);
+            border-radius: 16px;
+            padding: 28px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .pillar-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(201, 162, 39, 0.1);
+        }
+
+        .pillar-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: rgba(201, 162, 39, 0.1);
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            padding: 0;
+            justify-content: center;
+            font-size: 1.75rem;
         }
 
-        .footer-map {
-            opacity: 0.1;
+        .pillar-card h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--gold);
+        }
+
+        .pillar-card p {
+            font-size: 0.8125rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* ===== ENTREGÁVEIS ===== */
+        #entregaveis {
+            background: var(--black-light);
+        }
+
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .deliverable-card {
+            background: var(--black);
+            border: 1px solid rgba(201, 162, 39, 0.1);
+            border-radius: 20px;
+            padding: 40px 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .deliverable-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg') no-repeat center center;
-            background-size: cover;
+            height: 4px;
+            background: var(--gradient-gold);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .deliverable-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .deliverable-card:hover {
+            border-color: rgba(201, 162, 39, 0.3);
+            transform: translateY(-6px);
+        }
+
+        .deliverable-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(180deg, rgba(201, 162, 39, 0.3) 0%, transparent 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .deliverable-card h3 {
+            font-size: 1.375rem;
+            margin-bottom: 12px;
+            color: var(--gold);
+        }
+
+        .deliverable-card p {
+            font-size: 0.9375rem;
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* ===== COMPARATIVO ===== */
+        #comparativo {
+            background: var(--black);
+            position: relative;
+        }
+
+        .comparison-table {
+            background: var(--black-light);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            background: rgba(201, 162, 39, 0.1);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .comparison-header div {
+            padding: 24px 32px;
+            text-align: center;
+        }
+
+        .comparison-header div:first-child {
+            text-align: left;
+        }
+
+        .comparison-header .atr-col {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-row div {
+            padding: 20px 32px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comparison-row div:first-child {
+            justify-content: flex-start;
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .comparison-row .atr-col {
+            background: rgba(201, 162, 39, 0.05);
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .check-icon {
+            color: var(--gold);
+        }
+
+        .x-icon {
+            color: #666;
+        }
+
+        /* ===== DEPOIMENTO ===== */
+        #depoimento {
+            background: var(--gradient-dark);
+            position: relative;
+        }
+
+        .testimonial-card {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 60px;
+            background: rgba(201, 162, 39, 0.03);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            border-radius: 24px;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit', sans-serif;
+            font-size: 8rem;
+            color: var(--gold);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-size: 1.375rem;
+            font-style: italic;
+            color: var(--white);
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .author-info h4 {
+            font-size: 1rem;
+            color: var(--gold);
+        }
+
+        .author-info p {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* ===== CTA FINAL ===== */
+        #contato {
+            background: var(--black);
+            padding: 120px 0;
+            position: relative;
+        }
+
+        #contato::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(201, 162, 39, 0.15) 0%, transparent 60%);
             pointer-events: none;
+        }
+
+        .cta-container {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .cta-container h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-container h2 span {
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-container p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 18px 40px;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: var(--white);
+        }
+
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.3);
+        }
+
+        .location-info {
+            margin-top: 48px;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--black-light);
+            padding: 40px 0;
+            border-top: 1px solid rgba(201, 162, 39, 0.1);
         }
 
         .footer-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 30px;
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
         }
 
-        .ejetar-btn {
-            color: #333;
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-family: var(--font-tech);
-            transition: 0.3s;
-        }
-
-        .ejetar-btn:hover {
-            color: var(--alert-amber);
-            text-shadow: 0 0 5px var(--alert-amber);
-        }
-
-        /* =========================================
-           7. MODAL DOCUMENTOS
-           ========================================= */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-            z-index: 11000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-            cursor: auto;
-        }
-
-        .modal-overlay.active * {
-            cursor: auto;
-        }
-
-        .secret-paper {
-            width: 90%;
-            max-width: 900px;
-            height: 85vh;
-            background: #f4f1ea;
-            color: #111;
-            padding: 60px;
-            position: relative;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 0 1px #dcdcdc;
-            transform: translateY(100%) scale(0.5);
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow-y: auto;
-            font-family: 'Courier New', Courier, monospace;
-            background-image:
-                linear-gradient(90deg, transparent 49%, rgba(0, 0, 0, 0.05) 50%, transparent 51%),
-                linear-gradient(#e5e5e5 1px, transparent 1px);
-            background-size: 100% 100%, 100% 2rem;
-        }
-
-        .modal-overlay.active .secret-paper {
-            transform: translateY(0) scale(1);
-        }
-
-        .paper-header {
-            border-bottom: 2px solid #333;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .paper-stamp {
-            border: 4px solid #d00;
-            color: #d00;
-            padding: 5px 15px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            transform: rotate(-5deg);
-            opacity: 0.8;
-            font-family: sans-serif;
-            position: absolute;
-            top: 40px;
-            right: 40px;
-        }
-
-        .paper-title {
-            font-size: 2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-
-        .paper-meta {
-            font-size: 0.8rem;
-            color: #555;
-        }
-
-        .paper-content {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .module-col h4 {
-            font-family: var(--font-tech);
-            font-size: 1.2rem;
-            border-bottom: 1px solid #000;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
+        .footer-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .check-list {
-            list-style: none;
-            padding: 0;
+        .footer-logo img {
+            height: 32px;
         }
 
-        .check-list li {
+        .footer-text {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .footer-links {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            border-bottom: 1px dotted #ccc;
-            padding-bottom: 2px;
+            gap: 24px;
         }
 
-        .check-list li::before {
-            content: '[]';
-            font-family: monospace;
-            font-weight: bold;
-            color: #555;
+        .footer-links a {
+            font-size: 0.875rem;
+            color: var(--gray);
+            transition: color 0.3s ease;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 2rem;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.3s;
-            z-index: 11001;
+        .footer-links a:hover {
+            color: var(--gold);
         }
 
-        .close-modal:hover {
-            color: var(--alert-amber);
-            transform: rotate(90deg);
-        }
-
-        .timeline-container {
-            position: relative;
-            padding-left: 30px;
-            margin-top: 20px;
-            border-left: 2px dashed #999;
-        }
-
-        .mission-block {
-            position: relative;
-            margin-bottom: 40px;
-            background: rgba(0, 0, 0, 0.03);
-            border: 1px solid #ccc;
-            padding: 20px;
-        }
-
-        .mission-block::before {
-            content: '';
-            position: absolute;
-            left: -41px;
-            top: 20px;
-            width: 16px;
-            height: 16px;
-            background: #111;
-            border: 2px solid #f4f1ea;
-            border-radius: 50%;
-            z-index: 2;
-        }
-
-        .mission-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #bbb;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-        }
-
-        .mission-title {
-            font-weight: bold;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-        }
-
-        .mission-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            color: #fff;
-            font-weight: bold;
-            font-family: var(--font-tech);
-            letter-spacing: 1px;
-        }
-
-        .task-list {
-            margin: 0;
-            padding-left: 20px;
-            font-size: 0.9rem;
-        }
-
-        .task-list li {
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        /* =========================================
-           8. RESPONSIVIDADE & FIX MOBILE
-           ========================================= */
-        @media(max-width: 768px) {
-
-            /* Estabilização */
-            html,
-            body {
-                height: 100dvh;
-                overflow-x: hidden;
-                cursor: auto !important;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.75rem;
             }
 
-            #custom-cursor {
-                display: none !important;
+            .pillars-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
 
-            /* Header Mobile */
-            header {
-                height: 80px;
-                padding: 0 15px;
+            .atr-os-intro {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
+        }
 
-            .logo-img-header {
-                max-height: 50px;
-            }
-
-            .nav-switches {
+        @media (max-width: 768px) {
+            nav {
                 display: none;
             }
 
-            .mobile-menu-btn {
-                display: flex !important;
+            .hamburger {
+                display: flex;
             }
 
-            .mobile-nav-panel {
-                top: 80px;
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
 
-            .altimeter-strip {
-                display: none;
+            .hero h1 {
+                font-size: 2.25rem;
             }
 
-            /* Radar Fix */
-            .radar-flex {
-                flex-direction: column;
+            .hero-visual {
+                order: -1;
             }
 
-            .radar-screen {
-                width: 280px;
-                height: 280px;
-            }
-
-            .blip {
-                z-index: 10;
-            }
-
-            /* Throttle & Hero */
-            .throttle-container {
-                width: 85%;
-            }
-
-            .hero {
-                padding-top: 100px;
-            }
-
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero-p {
-                padding: 0 20px;
-                font-size: 1rem;
-            }
-
-            /* Grid Terreno */
-            .terrain-grid {
-                perspective: 800px;
-                transform: perspective(800px) rotateX(60deg);
-                will-change: transform, background-position;
-                opacity: 0.5;
-            }
-
-            /* Modal Fix */
-            .modal-overlay {
-                align-items: flex-end;
-            }
-
-            .secret-paper {
-                width: 100%;
-                height: 85dvh;
-                border-radius: 20px 20px 0 0;
-                padding: 30px 20px;
-                transform: translateY(100%);
-                max-width: none;
-                overscroll-behavior: contain;
-            }
-
-            .paper-stamp {
-                font-size: 1rem;
-                top: 10px;
-                right: 10px;
-                position: relative;
-                display: inline-block;
-            }
-
-            .modules-grid {
+            .problem-grid {
                 grid-template-columns: 1fr;
             }
 
-            /* CTA Fix */
-            .holo-ticket {
-                margin: 0;
-                transform: none !important;
-                width: 100%;
+            .pillars-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .ticket-body {
-                padding: 20px 10px;
+            .deliverables-grid {
+                grid-template-columns: 1fr;
             }
 
-            .ticket-dest {
+            .comparison-header,
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-header div,
+            .comparison-row div {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                text-align: center !important;
+                justify-content: center !important;
+            }
+
+            .section-header h2 {
                 font-size: 2rem;
+            }
+
+            .cta-container h2 {
+                font-size: 2.25rem;
             }
 
             .footer-content {
                 flex-direction: column;
+                gap: 24px;
                 text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.875rem;
+            }
+
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .atr-os-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .metric-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-large {
+                width: 100%;
             }
         }
     </style>
 </head>
 
-<body class="no-scroll">
-    <div id="preloader">
-        <div class="check-text" id="check-text">INICIANDO SISTEMAS...</div>
-        <div class="loader-bar">
-            <div class="loader-fill" id="loader-fill"></div>
-        </div>
-    </div>
-
-    <div id="custom-cursor"></div>
-
-    <div class="cockpit-view">
-        <div class="horizon-glow"></div>
-        <div class="terrain-grid"></div>
-        <div class="scanlines"></div>
-    </div>
-
-    <div class="altimeter-strip">
-        <div class="alt-indicator" id="alt-indicator"></div>
-        <div class="alt-mark active">FL400</div>
-        <div class="alt-mark">FL300</div>
-        <div class="alt-mark">FL200</div>
-        <div class="alt-mark">FL100</div>
-        <div class="alt-mark">GND</div>
-    </div>
-
-    <header>
+<body>
+    <!-- HEADER -->
+    <header id="header">
         <div class="container">
-            <nav>
-                <div class="logo-container">
-                    <img src="Logo-ATR-Fw.png" alt="ATR Growth Business" class="logo-img-header">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <img src="logo.png" alt="ATR Growth Business">
+                </a>
+                <nav>
+                    <a href="#problema">O Problema</a>
+                    <a href="#solucao">ATR OS</a>
+                    <a href="#entregaveis">Entregáveis</a>
+                    <a href="#comparativo">Compare</a>
+                    <a href="#contato" class="btn btn-primary">Agendar Diagnóstico</a>
+                </nav>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <div class="nav-switches">
-                    <a href="#problema" class="nav-item">
-                        <div class="switch-indicator">
-                            <div class="switch-knob"></div>
-                        </div>
-                        RADAR
-                    </a>
-                    <a href="#solucao" class="nav-item">
-                        <div class="switch-indicator">
-                            <div class="switch-knob"></div>
-                        </div>
-                        PAINEL
-                    </a>
-                    <a href="#entregaveis" class="nav-item">
-                        <div class="switch-indicator">
-                            <div class="switch-knob"></div>
-                        </div>
-                        ROTA
-                    </a>
-                    <a href="#contato" class="nav-item">
-                        <div class="switch-indicator">
-                            <div class="switch-knob"></div>
-                        </div>
-                        DECOLAR
-                    </a>
-                </div>
-                <div class="mobile-menu-btn" id="mobile-menu-trigger">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
+            </div>
         </div>
     </header>
 
-    <div class="mobile-nav-panel" id="mobile-panel">
-        <a href="#problema" class="mobile-link">01. Radar (Problema)</a>
-        <a href="#solucao" class="mobile-link">02. Painel (Solução)</a>
-        <a href="#entregaveis" class="mobile-link">03. Rota (Entregas)</a>
-        <a href="#contato" class="mobile-link" style="color:var(--gold-primary);">04. Decolar (Contato)</a>
-    </div>
-
+    <!-- HERO -->
     <section class="hero">
-        <div class="hud-overlay">
-            <div class="hud-corner hc-tl"></div>
-            <div class="hud-corner hc-tr"></div>
-            <div class="hud-corner hc-bl"></div>
-            <div class="hud-corner hc-br"></div>
-        </div>
-
-        <div class="hero-content">
-            <div class="status-badge">SISTEMA: VOO VISUAL (VFR) DETECTADO</div>
-            <h1 id="hero-title">PLANO DE VOO<br><span class="gold-text">ESTRATÉGICO</span></h1>
-            <p class="hero-p">Saia do "achismo" e assuma o Piloto Automático da sua empresa com instrumentos de
-                precisão.</p>
-
-            <div class="throttle-container" id="throttle-container">
-                <div class="throttle-track">ARRASTE PARA DECOLAR >>></div>
-                <div class="throttle-knob" id="throttle-knob"><i class="fas fa-plane"></i></div>
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        Tecnologia Proprietária
+                    </div>
+                    <h1>Diagnóstico Completo em <span>24 Horas</span></h1>
+                    <p class="hero-subtitle">
+                        O ATR OS é o sistema operacional que une metodologia proprietária e inteligência artificial para
+                        revelar a realidade da sua empresa — comercial, financeira e de gestão — em tempo recorde.
+                    </p>
+                    <div class="hero-highlight">
+                        💡 <strong>Economize meses</strong> de consultoria tradicional com um diagnóstico que entrega
+                        resultados no dia seguinte.
+                    </div>
+                    <div class="hero-ctas">
+                        <a href="https://wa.me/5514991149265?text=Olá,%20Vim%20pelo%20site%20da%20ATR!%20Quero%20saber%20mais%20sobre%20o%20diagnóstico%20em%2024h."
+                            class="btn btn-primary btn-large whatsapp-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                            Agendar Diagnóstico
+                        </a>
+                        <a href="#solucao" class="btn btn-outline btn-large">Conhecer o ATR OS</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-card">
+                        <div class="hero-card-header">
+                            <div class="hero-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                                    </path>
+                                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                    <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>ATR OS Dashboard</h3>
+                                <p>Visão em tempo real</p>
+                            </div>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">24h</div>
+                                <div class="metric-label">Tempo de Entrega</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">30+</div>
+                                <div class="metric-label">Análises Estratégicas</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">IA</div>
+                                <div class="metric-label">Pareceres Automáticos</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">100%</div>
+                                <div class="metric-label">Dados Reais</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- PROBLEMA -->
     <section id="problema">
         <div class="container">
             <div class="section-header">
-                <h2>VOO <span class="gold-text">ÀS CEGAS?</span></h2>
-                <p style="color: var(--text-muted);">Passe o cursor para ativar o sistema anti-neblina e ver a
-                    realidade.</p>
+                <div class="section-tag">O Problema</div>
+                <h2>O Custo do Achismo</h2>
+                <p>Enquanto você opera no escuro, oportunidades passam e prejuízos se acumulam silenciosamente.</p>
             </div>
-
-            <div class="fog-grid">
-                <div class="fog-card hover-trigger">
-                    <div class="fog-layer">
-                        <i class="fas fa-exclamation-triangle fog-warning"></i>
-                        <span class="fog-label">VISIBILIDADE ZERO</span>
-                    </div>
-                    <div class="clear-content">
-                        <i class="fas fa-chart-pie problem-icon"></i>
-                        <h3 class="problem-title">Turbulência Financeira</h3>
-                        <p style="color:#aaa; font-size:0.9rem;">"Faturo mas não vejo a cor do dinheiro. Onde está o
-                            lucro real?"</p>
-                    </div>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">💸</div>
+                    <h3>Dinheiro Invisível</h3>
+                    <p>Você fatura, mas não vê a cor do dinheiro. Os custos estão escondidos, as margens são
+                        desconhecidas, e o lucro real é um mistério.</p>
                 </div>
-
-                <div class="fog-card hover-trigger">
-                    <div class="fog-layer">
-                        <i class="fas fa-gas-pump fog-warning"></i>
-                        <span class="fog-label">BAIXO COMBUSTÍVEL</span>
-                    </div>
-                    <div class="clear-content">
-                        <i class="fas fa-filter problem-icon"></i>
-                        <h3 class="problem-title">Combustível Gasto</h3>
-                        <p style="color:#aaa; font-size:0.9rem;">Marketing sem retorno medido. Vendas perdidas por falta
-                            de processo.</p>
-                    </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📊</div>
+                    <h3>Dados Fragmentados</h3>
+                    <p>Planilhas, extratos bancários, sistemas... cada dado em um lugar. Sem integração, você não tem a
+                        visão completa do negócio.</p>
                 </div>
-
-                <div class="fog-card hover-trigger">
-                    <div class="fog-layer">
-                        <i class="fas fa-user-clock fog-warning"></i>
-                        <span class="fog-label">FADIGA DO PILOTO</span>
-                    </div>
-                    <div class="clear-content">
-                        <i class="fas fa-network-wired problem-icon"></i>
-                        <h3 class="problem-title">Você é o Gargalo</h3>
-                        <p style="color:#aaa; font-size:0.9rem;">Empresa refém da sua presença. Sem você, o avião cai.
-                        </p>
-                    </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⏳</div>
+                    <h3>Meses Esperando Respostas</h3>
+                    <p>Consultoria tradicional leva semanas ou meses para entregar um diagnóstico. Enquanto isso, você
+                        continua tomando decisões no escuro.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🔒</div>
+                    <h3>Empresa Travada em Você</h3>
+                    <p>Sem processos definidos, sem indicadores claros, sem delegação estruturada. Se você parar, a
+                        empresa para junto.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="solucao" style="background: linear-gradient(to bottom, #050505, #0a0a0a);">
+    <!-- ATR OS (Solução) -->
+    <section id="solucao">
         <div class="container">
-            <div class="section-header">
-                <h2>INSTRUMENTOS <span class="gold-text">DE BORDO</span></h2>
-                <p style="color: var(--text-muted);">Diagnóstico preciso em 3 fases.</p>
+            <div class="atr-os-intro">
+                <div class="atr-os-text">
+                    <div class="section-tag">A Solução</div>
+                    <h2>Conheça o <span>ATR OS</span></h2>
+                    <p>
+                        O ATR OS é o sistema operacional da consultoria moderna. Uma tecnologia proprietária
+                        desenvolvida pela ATR que transforma a forma como empresas entendem sua própria realidade.
+                    </p>
+                    <p>
+                        Em apenas 24 horas após a entrada dos dados, você recebe uma visão completa — financeira,
+                        comercial e de gestão — com análises que antes levariam meses para serem produzidas.
+                    </p>
+                    <div class="atr-os-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24h</div>
+                            <div class="stat-label">Para diagnóstico completo</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">30+</div>
+                            <div class="stat-label">Análises estratégicas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">∞</div>
+                            <div class="stat-label">Escalabilidade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="atr-os-visual">
+                    <div class="hero-card">
+                        <div class="hero-card-header">
+                            <div class="hero-card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3>Plano de Voo</h3>
+                                <p>Seu mapa estratégico completo</p>
+                            </div>
+                        </div>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">DRE</div>
+                                <div class="metric-label">Forense Multi-Mensal</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">ABC</div>
+                                <div class="metric-label">Curva de Produtos</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">KPIs</div>
+                                <div class="metric-label">Em Tempo Real</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">90d</div>
+                                <div class="metric-label">Plano de Ação</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="radar-flex">
-                <div class="radar-screen">
-                    <div class="radar-grid-lines"></div>
-                    <div class="radar-sweep"></div>
-                    <div class="blip" style="top: 30%; left: 60%;"></div>
-                    <div class="blip" style="top: 70%; left: 40%; animation-delay: 1s;"></div>
-                    <div class="blip" style="top: 40%; left: 20%; animation-delay: 2s;"></div>
+            <div class="section-header">
+                <div class="section-tag">Pilares</div>
+                <h2>O que sustenta o ATR OS</h2>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <div class="pillar-icon">📋</div>
+                    <h4>Metodologia</h4>
+                    <p>Framework proprietário com 30+ análises estruturadas e validadas</p>
                 </div>
-
-                <div class="phase-list">
-                    <div class="phase-card hover-trigger">
-                        <div class="phase-header"><span>FASE 01</span><i class="fas fa-check-circle"></i></div>
-                        <h3 class="phase-title">Instrumentos Financeiros</h3>
-                        <p style="color:#888; font-size: 0.9rem;">DRE Forense, Ponto de Equilíbrio e Margem de
-                            Contribuição real.</p>
-                    </div>
-                    <div class="phase-card hover-trigger">
-                        <div class="phase-header"><span>FASE 02</span><i class="fas fa-bullseye"></i></div>
-                        <h3 class="phase-title">Vetor de Tração (Vendas)</h3>
-                        <p style="color:#888; font-size: 0.9rem;">Análise de CAC, LTV e Otimização do Funil de Vendas.
-                        </p>
-                    </div>
-                    <div class="phase-card hover-trigger">
-                        <div class="phase-header"><span>FASE 03</span><i class="fas fa-robot"></i></div>
-                        <h3 class="phase-title">Piloto Automático</h3>
-                        <p style="color:#888; font-size: 0.9rem;">Processos, KPIs e estrutura para sua saída do
-                            operacional.</p>
-                    </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">🧠</div>
+                    <h4>Lógica de Negócio</h4>
+                    <p>Benchmarks por segmento e regras de categorização inteligente</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">📈</div>
+                    <h4>Escala</h4>
+                    <p>Mesma qualidade de análise para qualquer tamanho de empresa</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">✅</div>
+                    <h4>Qualidade</h4>
+                    <p>Dados reais do extrato bancário, sem achismo ou estimativa</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">🤖</div>
+                    <h4>Inteligência Artificial</h4>
+                    <p>Pareceres estratégicos gerados automaticamente por IA</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ENTREGÁVEIS -->
     <section id="entregaveis">
         <div class="container">
             <div class="section-header">
-                <h2>CAIXA <span class="gold-text">PRETA</span></h2>
-                <p style="color: var(--text-muted);">O que você recebe ao final do briefing.</p>
+                <div class="section-tag">Entregáveis</div>
+                <h2>O que você recebe</h2>
+                <p>Ao final do diagnóstico, você terá em mãos um conjunto completo de documentos estratégicos.</p>
             </div>
-
-            <div class="files-grid">
-                <div class="classified-folder hover-trigger">
-                    <div class="folder-tab">DOC #001</div>
-                    <div class="folder-body">
-                        <div class="folder-stamp">CONFIDENTIAL</div>
-                        <h3 style="color:#fff; margin-bottom:10px;">Plano de Voo</h3>
-                        <p style="color:#888; font-size:0.9rem;">O manual mestre consolidando todas as 30 análises
-                            estratégicas.</p>
-                    </div>
+            <div class="deliverables-grid">
+                <div class="deliverable-card">
+                    <div class="deliverable-number">01</div>
+                    <h3>Plano de Voo</h3>
+                    <p>O documento mestre que consolida todas as 30+ análises estratégicas. Sua bússola para os próximos
+                        passos do negócio.</p>
                 </div>
-                <div class="classified-folder hover-trigger">
-                    <div class="folder-tab">DOC #002</div>
-                    <div class="folder-body">
-                        <div class="folder-stamp">TOP SECRET</div>
-                        <h3 style="color:#fff; margin-bottom:10px;">Rota 90 Dias</h3>
-                        <p style="color:#888; font-size:0.9rem;">Plano de ação tático priorizado por impacto imediato.
-                        </p>
-                    </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-number">02</div>
+                    <h3>Rota 90 Dias</h3>
+                    <p>Plano de ação tático priorizado por impacto. As primeiras vitórias rápidas que você deve
+                        conquistar nos próximos 3 meses.</p>
                 </div>
-                <div class="classified-folder hover-trigger">
-                    <div class="folder-tab">DOC #003</div>
-                    <div class="folder-body">
-                        <div class="folder-stamp">SYSTEMS</div>
-                        <h3 style="color:#fff; margin-bottom:10px;">Dashboard</h3>
-                        <p style="color:#888; font-size:0.9rem;">Painel de KPIs para monitoramento semanal da saúde da
-                            empresa.</p>
-                    </div>
+                <div class="deliverable-card">
+                    <div class="deliverable-number">03</div>
+                    <h3>Dashboard de KPIs</h3>
+                    <p>Painel visual com os indicadores-chave para monitoramento semanal da saúde financeira e
+                        operacional da empresa.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section>
+    <!-- COMPARATIVO -->
+    <section id="comparativo">
         <div class="container">
-            <div class="voice-recorder">
-                <div class="recorder-header">
-                    <span>GRAVAÇÃO: COCKPIT #842</span>
-                    <span>STATUS: SUCESSO</span>
-                </div>
-                <div class="waveform">
-                    <div class="bar" style="animation-duration: 0.5s;"></div>
-                    <div class="bar" style="animation-duration: 0.8s;"></div>
-                    <div class="bar" style="animation-duration: 0.3s;"></div>
-                    <div class="bar" style="animation-duration: 0.6s;"></div>
-                    <div class="bar" style="animation-duration: 1.0s;"></div>
-                    <div class="bar" style="animation-duration: 0.4s;"></div>
-                    <div class="bar" style="animation-duration: 0.7s;"></div>
-                </div>
-                <p class="testimonial-text">"O Plano de Voo mudou a forma como eu via o meu negócio. Agora tenho muito
-                    controle sobre o que está acontecendo e as decisões que estou tomando."</p>
-                <p style="text-align:center; color:var(--gold-dark); margin-top:10px; font-family:var(--font-tech);">-
-                    Jose Roberto, CEO, JR Pinheiro</p>
+            <div class="section-header">
+                <div class="section-tag">Compare</div>
+                <h2>Tradicional vs ATR OS</h2>
+                <p>Veja a diferença entre a consultoria convencional e nossa abordagem tecnológica.</p>
             </div>
-
-            <div class="telemetry-row">
-                <div class="telemetry-item">
-                    <span class="t-val" id="val-roi">0x</span>
-                    <span class="t-label">ROI MÉDIO</span>
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <div>Critério</div>
+                    <div>Tradicional</div>
+                    <div class="atr-col">ATR OS</div>
                 </div>
-                <div class="telemetry-item">
-                    <span class="t-val" id="val-time">0</span>
-                    <span class="t-label">DIAS P/ IMPLEMENTAR</span>
+                <div class="comparison-row">
+                    <div>Tempo de entrega</div>
+                    <div>2-3 meses</div>
+                    <div class="atr-col">24 horas</div>
                 </div>
-                <div class="telemetry-item">
-                    <span class="t-val" id="val-success">0%</span>
-                    <span class="t-label">SUCESSO DE VOO</span>
+                <div class="comparison-row">
+                    <div>Base de dados</div>
+                    <div>Entrevistas e estimativas</div>
+                    <div class="atr-col">Extrato real + IA</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Análises inclusas</div>
+                    <div>5-10 análises</div>
+                    <div class="atr-col">30+ análises</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Margem por produto</div>
+                    <div class="x-icon">✕ Não incluso</div>
+                    <div class="atr-col check-icon">✓ Curva ABC</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Parecer estratégico</div>
+                    <div>Manual (semanas)</div>
+                    <div class="atr-col">IA (instantâneo)</div>
+                </div>
+                <div class="comparison-row">
+                    <div>Custo médio</div>
+                    <div>R$ 15.000+</div>
+                    <div class="atr-col">Sob consulta</div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- DEPOIMENTO -->
+    <section id="depoimento">
+        <div class="container">
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    "O Plano de Voo mudou a forma como eu via o meu negócio. Agora tenho muito controle sobre o que está
+                    acontecendo e as decisões que estou tomando."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">JR</div>
+                    <div class="author-info">
+                        <h4>Jose Roberto</h4>
+                        <p>CEO, JR Pinheiro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA FINAL -->
     <section id="contato">
         <div class="container">
-            <div class="holo-ticket hover-trigger">
-                <div class="ticket-body">
-                    <span style="font-family: var(--font-tech); color: var(--gold-primary);">BOARDING PASS • FIRST
-                        CLASS</span>
-                    <h2 class="ticket-dest">BRIEFING DE<br>DECOLAGEM</h2>
-                    <div
-                        style="display:flex; justify-content:center; gap:30px; margin-top:20px; color:#888; font-family:var(--font-tech);">
-                        <div>GATE: 01</div>
-                        <div>SEAT: 1A</div>
-                        <div>TIME: AGORA</div>
-                    </div>
+            <div class="cta-container">
+                <h2>Pronto para <span>decolar</span>?</h2>
+                <p>Agende uma reunião diagnóstica e descubra em 24 horas o que está travando o crescimento da sua
+                    empresa.</p>
+                <div class="cta-buttons">
+                    <a href="https://wa.me/5514991149265?text=Olá,%20Vim%20pelo%20site%20da%20ATR!%20Quero%20agendar%20meu%20diagnóstico%20em%2024h."
+                        class="btn btn-primary btn-large whatsapp-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="currentColor">
+                            <path
+                                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        Agendar meu Diagnóstico
+                    </a>
                 </div>
-                <div class="ticket-stub">
-                    <p style="color:#aaa; margin-bottom:20px; font-size:0.9rem;">Solicite uma reunião diagnóstica
-                        gratuita.</p>
-                    <a href="https://wa.me/5514991149265?text=Ol%C3%A1%2C%20Vim%20pelo%20Plano%20de%20Voo!"
-                        class="btn-gold">SOLICITAR BRIEFING</a>
-                    <div style="margin-top:15px; font-size:0.75rem; color:#666;">+ INFORMAÇÕES SOBRE O PROGRAMA
-                        CO-PILOTO</div>
-                </div>
+                <p class="location-info">📍 Bauru, SP - Brasil</p>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
-        <div class="footer-map"></div>
-        <div class="container footer-content">
-            <div>
-                <img src="Logo-ATR-Fw.png" alt="ATR Growth Business" class="logo-img-footer">
-                <p style="color:#666;">Bauru, SP - Brasil</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="ATR Growth Business" style="height: 52px;">
+                </div>
+                <p class="footer-text">© 2025 ATR Growth Business. Todos os direitos reservados.</p>
+                <div class="footer-links">
+                    <a href="https://wa.me/5514991149265">WhatsApp</a>
+                </div>
             </div>
-            <div>
-                <a href="#" class="ejetar-btn"><i class="fas fa-exclamation-circle"></i> EJETAR (SUPORTE URGENTE)</a>
-            </div>
-            <div style="color:#444;">&copy; 2025 ATR Growth Business</div>
         </div>
     </footer>
 
-    <div class="modal-overlay" id="doc-modal">
-        <div class="close-modal" id="close-btn">&times;</div>
-        <div class="secret-paper">
-            <div class="paper-stamp">CONFIDENTIAL / ATR EYES ONLY</div>
-            <div class="paper-header">
-                <div>
-                    <h2 class="paper-title" id="doc-title">TÍTULO DO DOC</h2>
-                    <div class="paper-meta">REF: ESTRATÉGIA_2025 // STATUS: APROVADO // COCKPIT: #842</div>
-                </div>
-            </div>
-            <div class="paper-content" id="doc-body">
-            </div>
-            <div
-                style="margin-top: 50px; text-align: center; font-size: 0.8rem; color: #666; border-top: 1px solid #999; padding-top: 20px;">
-                DOCUMENTO GERADO POR SISTEMA ATR GROWTH BUSINESS &copy; <br>
-                PROIBIDA A CÓPIA OU REPRODUÇÃO NÃO AUTORIZADA.
-            </div>
-        </div>
-    </div>
-
     <script>
-        // 1. CURSOR PERSONALIZADO (Só Desktop)
-        const cursor = document.getElementById('custom-cursor');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        const hoverTriggers = document.querySelectorAll('a, button, .hover-trigger, .throttle-knob');
-        hoverTriggers.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('locked'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('locked'));
-        });
-
-        // 2. PRELOADER CHECKLIST
-        const checklistItems = [
-            "CHECANDO HIDRÁULICA...",
-            "PRESSURIZANDO CABINE...",
-            "CONFIGURANDO NAVEGAÇÃO...",
-            "SISTEMAS: OK",
-            "BEM-VINDO A BORDO."
-        ];
-        const checkText = document.getElementById('check-text');
-        const loaderFill = document.getElementById('loader-fill');
-        const preloader = document.getElementById('preloader');
-
-        let step = 0;
-
-        function runChecklist() {
-            if (step < checklistItems.length) {
-                checkText.innerText = checklistItems[step];
-                checkText.style.opacity = 1;
-
-                // Animação da barra
-                let progress = ((step + 1) / checklistItems.length) * 100;
-                loaderFill.style.width = progress + "%";
-
-                setTimeout(() => {
-                    step++;
-                    runChecklist();
-                }, 600);
+        // Header scroll effect
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                setTimeout(() => {
-                    if (preloader) {
-                        preloader.style.transition = "opacity 0.5s";
-                        preloader.style.opacity = 0;
-                        setTimeout(() => {
-                            preloader.remove();
-                            document.body.classList.remove('no-scroll'); // Destrava o site
-                        }, 500);
-                    }
-                    animateNumbers();
-                }, 800);
+                header.classList.remove('scrolled');
             }
-        }
+        });
 
-        window.onload = runChecklist;
-
-        // 3. MENU MOBILE LOGIC
-        const mobileBtn = document.getElementById('mobile-menu-trigger');
-        const mobilePanel = document.getElementById('mobile-panel');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        if (mobileBtn) {
-            mobileBtn.addEventListener('click', () => {
-                mobilePanel.classList.toggle('active');
-                const icon = mobileBtn.querySelector('i');
-                if (mobilePanel.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobilePanel.classList.remove('active');
-                    mobileBtn.querySelector('i').classList.remove('fa-times');
-                    mobileBtn.querySelector('i').classList.add('fa-bars');
-                });
-            });
-        }
-
-        // 4. BOTÃO MANETE (THROTTLE)
-        const throttleKnob = document.getElementById('throttle-knob');
-        const throttleContainer = document.getElementById('throttle-container');
-        let isDragging = false;
-        let startX;
-
-        if (throttleKnob && throttleContainer) {
-            throttleKnob.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                throttleKnob.style.transition = 'none';
-            });
-
-            // Suporte a Touch
-            throttleKnob.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                startX = e.touches[0].clientX;
-                throttleKnob.style.transition = 'none';
-            });
-
-            const handleMove = (clientX) => {
-                if (!isDragging) return;
-                let containerRect = throttleContainer.getBoundingClientRect();
-                let maxDist = containerRect.width - 60;
-
-                let moveX = clientX - containerRect.left;
-
-                if (moveX < 0) moveX = 0;
-                if (moveX > maxDist) moveX = maxDist;
-
-                throttleKnob.style.left = moveX + 'px';
-
-                if (moveX > maxDist * 0.9) {
-                    window.location.href = "#contato";
-                    isDragging = false;
-                    throttleKnob.style.left = maxDist + 'px';
-                }
-            };
-
-            document.addEventListener('mousemove', (e) => handleMove(e.clientX));
-            document.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX));
-
-            const endDrag = () => {
-                if (!isDragging) return;
-                isDragging = false;
-                throttleKnob.style.transition = 'left 0.3s ease';
-                if (parseInt(throttleKnob.style.left) < 240) {
-                    throttleKnob.style.left = '0px';
-                }
-            };
-
-            document.addEventListener('mouseup', endDrag);
-            document.addEventListener('touchend', endDrag);
-        }
-
-        // 5. SCROLL ALTIMETER
-        const altIndicator = document.getElementById('alt-indicator');
-        const marks = document.querySelectorAll('.alt-mark');
-
-        window.addEventListener('scroll', () => {
-            let scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            let indicatorPos = scrollPercent * 300;
-            if (altIndicator) altIndicator.style.top = indicatorPos + 'px';
-
-            marks.forEach((mark, index) => {
-                let markPos = (index / (marks.length - 1)) * 300;
-                if (Math.abs(indicatorPos - markPos) < 30) {
-                    mark.classList.add('active');
-                } else {
-                    mark.classList.remove('active');
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
         });
 
-        // 6. ANIMAÇÃO DE NÚMEROS
-        function animateValue(obj, start, end, duration, suffix) {
-            if (!obj) return;
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                obj.innerHTML = Math.floor(progress * (end - start) + start) + suffix;
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
+        // Simple mobile menu toggle (optional enhancement)
+        const hamburger = document.querySelector('.hamburger');
+        const nav = document.querySelector('nav');
 
-        function animateNumbers() {
-            animateValue(document.getElementById("val-roi"), 0, 10, 2000, "x");
-            animateValue(document.getElementById("val-time"), 0, 45, 2000, " Dias");
-            animateValue(document.getElementById("val-success"), 0, 92, 2000, "%");
-        }
-
-        // 7. SISTEMA DE DOCUMENTOS (MODAL)
-        const modal = document.getElementById('doc-modal');
-        const closeBtn = document.getElementById('close-btn');
-        const docTitle = document.getElementById('doc-title');
-        const docBody = document.getElementById('doc-body');
-
-        const docsData = {
-            'DOC #001': {
-                title: 'PLANO DE VOO (30 ANÁLISES)',
-                content: `
-                    <p style="margin-bottom:20px;"><strong>RESUMO EXECUTIVO:</strong> Este documento consolida a varredura completa dos sistemas da empresa. Abaixo estão listados os 30 instrumentos de precisão que serão calibrados durante a consultoria.</p>
-                    
-                    <div class="modules-grid">
-                        <div class="module-col">
-                            <h4><i class="fas fa-tachometer-alt"></i> INSTRUMENTOS DE BORDO (FINANCEIRO)</h4>
-                            <ul class="check-list">
-                                <li>DRE Forense (Regime de Caixa Real)</li>
-                                <li>Auditoria de Estrutura de Custos</li>
-                                <li>Análise de Margem por Produto</li>
-                                <li>Diagnóstico do Ciclo de Caixa</li>
-                                <li>Cálculo de Ponto de Equilíbrio</li>
-                                <li>Simulação de Regime Tributário</li>
-                                <li>Custo Hora-Homem (CHH)</li>
-                                <li>Política de Pró-Labore e Lucro</li>
-                                <li>Orçamento Base (Budget)</li>
-                                <li>Análise de CAC vs. LTV (Financeiro)</li>
-                            </ul>
-                        </div>
-
-                        <div class="module-col">
-                            <h4><i class="fas fa-jet-fighter-up"></i> VETOR DE TRAÇÃO (COMERCIAL)</h4>
-                            <ul class="check-list">
-                                <li>Auditoria de Canais de Aquisição</li>
-                                <li>Mapeamento da Jornada do Cliente</li>
-                                <li>Diagnóstico de CAC por Canal</li>
-                                <li>Análise de Retenção (LTV/Churn)</li>
-                                <li>Definição do Cliente Ideal (ICP)</li>
-                                <li>Análise Competitiva (Benchmarking)</li>
-                                <li>Auditoria de Presença Digital</li>
-                                <li>Diagnóstico da Proposta de Valor</li>
-                                <li>Análise de Pipeline (Previsibilidade)</li>
-                                <li>Estrutura de Vendas e Performance</li>
-                            </ul>
-                        </div>
-
-                        <div class="module-col">
-                            <h4><i class="fas fa-robot"></i> PILOTO AUTOMÁTICO (ESTRATÉGICO)</h4>
-                            <ul class="check-list">
-                                <li>Diagnóstico de Alocação do Gestor</li>
-                                <li>Mapeamento de Processos-Chave</li>
-                                <li>Análise de Viabilidade de Investimento</li>
-                                <li>Definição de Cultura e KPIs</li>
-                                <li>Metodologia de Testes (ATR)</li>
-                                <li>Estudo de Potencial de Mercado</li>
-                                <li>Framework de Tomada de Decisão</li>
-                                <li>Plano de Cenários e Riscos</li>
-                                <li>Matriz de Priorização (Gaps vs Alavancas)</li>
-                                <li>Consolidação do Strategic Playbook</li>
-                            </ul>
-                        </div>
-                    </div>
-                `
-            },
-            'DOC #002': {
-                title: 'ROTA DE VOO: 90 DIAS',
-                content: `
-                    <p style="margin-bottom:20px;"><strong>ORDEM DE MISSÃO:</strong> Execução tática para sair da zona de perigo e atingir o voo de cruzeiro. Prioridade total na preservação de caixa e aumento de tração.</p>
-                    
-                    <div class="timeline-container">
-                        
-                        <div class="mission-block">
-                            <style>.mission-block:nth-child(1)::before { background: #d00; }</style>
-                            <div class="mission-header">
-                                <div>
-                                    <div class="mission-title" style="color:#d00;">MÊS 01: DECOLAGEM (FINANCEIRO)</div>
-                                    <small>Foco: Estancar Sangramento & Clareza</small>
-                                </div>
-                                <div class="mission-badge" style="background:#d00;">PRIORIDADE MAX</div>
-                            </div>
-                            <ul class="task-list">
-                                <li><strong>DRE Forense:</strong> Implementação do regime de caixa real (separar PF de PJ). [Ref: Módulo 1]</li>
-                                <li><strong>Corte de Gordura:</strong> Auditoria imediata de custos fixos e renegociação de contratos.</li>
-                                <li><strong>Precificação de Combate:</strong> Ajuste de margem nos produtos "Carro-Chefe" para garantir lucro real.</li>
-                                <li><strong>Meta:</strong> Definir o Ponto de Equilíbrio e garantir 30 dias de caixa.</li>
-                            </ul>
-                        </div>
-
-                        <div class="mission-block">
-                            <style>.mission-block:nth-child(2)::before { background: #AA8825; }</style>
-                            <div class="mission-header">
-                                <div>
-                                    <div class="mission-title" style="color:#AA8825;">MÊS 02: SUBIDA (COMERCIAL)</div>
-                                    <small>Foco: Tração de Vendas & Otimização</small>
-                                </div>
-                                <div class="mission-badge" style="background:#AA8825;">ALTA POTÊNCIA</div>
-                            </div>
-                            <ul class="task-list">
-                                <li><strong>Auditoria de Canais:</strong> Identificar qual canal traz o CAC mais barato e dobrar a aposta. [Ref: Módulo 2]</li>
-                                <li><strong>Jornada do Cliente:</strong> Eliminar fricção no funil de vendas (reduzir tempo de resposta).</li>
-                                <li><strong>Reativação da Base:</strong> Campanha de LTV para vender novamente para clientes antigos.</li>
-                                <li><strong>Meta:</strong> Aumentar a taxa de conversão em 20% e reduzir o CAC.</li>
-                            </ul>
-                        </div>
-
-                        <div class="mission-block">
-                            <style>.mission-block:nth-child(3)::before { background: #28a745; }</style>
-                            <div class="mission-header">
-                                <div>
-                                    <div class="mission-title" style="color:#28a745;">MÊS 03: CRUZEIRO (ESTRATÉGICO)</div>
-                                    <small>Foco: Processos & Delegação</small>
-                                </div>
-                                <div class="mission-badge" style="background:#28a745;">PILOTO AUTOMÁTICO</div>
-                            </div>
-                            <ul class="task-list">
-                                <li><strong>Manual de Operações (Playbook):</strong> Documentar os 5 processos-chave para a equipe rodar sozinha. [Ref: Módulo 3]</li>
-                                <li><strong>Dashboard de Comando:</strong> Instalação dos KPIs para monitoramento remoto pelo dono.</li>
-                                <li><strong>Matriz de Delegação:</strong> Retirada oficial do sócio das tarefas puramente operacionais.</li>
-                                <li><strong>Meta:</strong> Gestor livre do operacional por 3 dias na semana.</li>
-                            </ul>
-                        </div>
-
-                    </div>
-                    
-                    <div style="background:#111; color:#fff; padding:15px; text-align:center; margin-top:30px; border:1px solid #333;">
-                        <strong style="font-family:var(--font-tech); letter-spacing:2px; color:var(--gold-primary);">OBJETIVO FINAL:</strong><br>
-                        EMPRESA LUCRATIVA, PREVISÍVEL E AUTO-GERENCIÁVEL.
-                    </div>
-                `
-            },
-            'DOC #003': {
-                title: 'PAINEL DE CONTROLE (KPIs)',
-                content: `
-                    <p style="margin-bottom:20px;"><strong>SISTEMA DE TELEMETRIA:</strong> Monitoramento em tempo real dos sinais vitais da empresa. Substitui o "feeling" por dados concretos para navegação por instrumentos (IFR).</p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                        
-                        <div style="border: 2px solid #333; padding: 15px; background: rgba(0,0,0,0.02);">
-                            <div style="font-size: 0.8rem; font-weight:bold; color:#555; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom:5px;">
-                                <i class="fas fa-chart-line"></i> ALTITUDE (FINANCEIRO)
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 0.8rem; color: #777;">MARGEM DE CONTRIBUIÇÃO</div>
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #28a745;">32%</div>
-                                <div style="font-size: 0.7rem; margin-top: 5px;">
-                                    <span style="color: #28a745;">▲ 4% vs Mês Anterior</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px; font-size: 0.8rem;">
-                                <strong>Ponto de Equilíbrio:</strong> <span style="float:right;">DIA 18/30</span>
-                            </div>
-                        </div>
-
-                        <div style="border: 2px solid #333; padding: 15px; background: rgba(0,0,0,0.02);">
-                            <div style="font-size: 0.8rem; font-weight:bold; color:#555; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom:5px;">
-                                <i class="fas fa-tachometer-alt"></i> VELOCIDADE (VENDAS)
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 0.8rem; color: #777;">NOVOS CONTRATOS</div>
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #AA8825;">12</div>
-                                <div style="font-size: 0.7rem; margin-top: 5px;">
-                                    <span style="color: #d00;">▼ Meta: 15</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px; font-size: 0.8rem;">
-                                <strong>Taxa de Conversão:</strong> <span style="float:right;">18.5%</span>
-                            </div>
-                        </div>
-
-                        <div style="border: 2px solid #333; padding: 15px; background: rgba(0,0,0,0.02);">
-                            <div style="font-size: 0.8rem; font-weight:bold; color:#555; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom:5px;">
-                                <i class="fas fa-gas-pump"></i> EFICIÊNCIA (ROI)
-                            </div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 0.8rem; color: #777;">RELAÇÃO LTV / CAC</div>
-                                <div style="font-size: 2.5rem; font-weight: bold; color: #111;">4.2x</div>
-                                <div style="font-size: 0.7rem; margin-top: 5px;">
-                                    <span style="color: #28a745;">(Saudável > 3.0x)</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 15px; border-top: 1px dashed #ccc; padding-top: 10px; font-size: 0.8rem;">
-                                <strong>CAC Atual:</strong> <span style="float:right;">R$ 185,00</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="border: 1px solid #999; padding: 15px; position: relative;">
-                         <div style="position: absolute; top: -10px; left: 15px; background: #f4f1ea; padding: 0 5px; font-size: 0.8rem; font-weight: bold;">
-                            RADAR METEOROLÓGICO (FORECAST 30 DIAS)
-                         </div>
-                         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                            <div style="font-size: 0.9rem;">
-                                Previsão de Fechamento (Pipeline Ponderado):<br>
-                                <strong style="font-size: 1.2rem;">R$ 84.500,00</strong>
-                            </div>
-                            <div style="text-align: right; font-size: 0.8rem; color: #666;">
-                                Probabilidade Média: 65%<br>
-                                Oportunidades no Radar: 22
-                            </div>
-                         </div>
-                         
-                         <div style="width: 100%; height: 10px; background: #ddd; margin-top: 15px; border-radius: 5px; overflow: hidden;">
-                            <div style="width: 75%; height: 100%; background: linear-gradient(90deg, #AA8825, #28a745);"></div>
-                         </div>
-                         <div style="display: flex; justify-content: space-between; font-size: 0.7rem; margin-top: 5px;">
-                            <span>REALIZADO</span>
-                            <span>META MENSAL</span>
-                         </div>
-                    </div>
-
-                    <p style="margin-top: 20px; font-size: 0.8rem; color: #888; font-style: italic;">
-                        *Dados ilustrativos. O Dashboard real é personalizado e conectado às suas fontes de dados (ERP/CRM) via Power BI ou Excel.
-                    </p>
-                `
-            }
-        };
-
-        const folders = document.querySelectorAll('.classified-folder');
-
-        folders.forEach(folder => {
-            folder.addEventListener('click', () => {
-                const docId = folder.querySelector('.folder-tab').innerText.trim();
-
-                if (docsData[docId]) {
-                    docTitle.innerText = docsData[docId].title;
-                    docBody.innerHTML = docsData[docId].content;
-                    modal.classList.add('active');
-                    document.body.classList.add('no-scroll'); // Trava o site
-                }
+        if (hamburger) {
+            hamburger.addEventListener('click', function () {
+                nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
             });
-        });
-
-        const closeModal = () => {
-            modal.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        };
-
-        closeBtn.addEventListener('click', closeModal);
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
+        }
     </script>
 </body>
 
